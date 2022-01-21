@@ -6,7 +6,7 @@ setup(
     packages=["pydrawer"],
     version="0.0.1",
     license="MIT",
-    description="Draw curves in a super easy way!",
+    description="The Python package for visualizing curves and linear transformations in a super simple way.",
     author="Dylan Tintenfich",
     author_email="tintenfichdylan05@gmail.com",
     url="https://github.com/dylannalex/pydrawer",
