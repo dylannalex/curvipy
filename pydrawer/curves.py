@@ -13,7 +13,7 @@ def transform_curve(
     Applies a linear transformation (matrix) to a curve.
 
     curve(Callable):    parametrized curve
-    matrix(Matrix):     matrix to transforme the curve
+    matrix(Matrix):     linear transformation's matrix
     """
     g = lambda t: curve(t)[0]
     m = lambda t: curve(t)[1]
@@ -42,8 +42,8 @@ def scale_curve(curve: Callable, scalar: Union[float, int]) -> Callable:
     """
     Scales the given curve by the given scalar.
 
-    curve(Callable):    parametrized curve to scale
-    angle(float, int):  angle in radians
+    curve(Callable):        parametrized curve to scale
+    scalar(float, int):     scalar for scaling the curve
     """
     scaling_matrix = ((scalar, 0), (0, scalar))
     return transform_curve(curve, scaling_matrix)
