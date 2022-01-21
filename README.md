@@ -4,8 +4,18 @@
 
 The Python package for visualizing curves and linear transformations in a super simple way.
 
+## :pencil2: Installation
 
-## :pencil2:	Usage
+Install pydrawer package with pip:
+```
+$ pip install pydrawer
+```
+or clone the repository:
+```
+$ git clone https://github.com/dylannalex/pydrawer.git
+```
+
+## :pencil2: Usage
 
 ### :pushpin: Drawing curves
 To start drawing curves you need to create a ```GraphingCalculator``` object:
