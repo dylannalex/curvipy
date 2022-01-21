@@ -1,5 +1,21 @@
-from typing import Callable, Union
+from typing import Any, Callable, Union
 import turtle
+
+
+def _is_int(result: Any) -> bool:
+    try:
+        int(result)
+        return True
+    except Exception:
+        return False
+
+
+def _is_float(result: Any) -> bool:
+    try:
+        int(result)
+        return True
+    except Exception:
+        return False
 
 
 class GraphingCalculator(turtle.Turtle):
@@ -45,7 +61,7 @@ class GraphingCalculator(turtle.Turtle):
         draws it.
         """
         curve_image = curve(domain_interval[0])
-        if len(curve_image) == 1:
+        if _is_int(curve_image) or _is_float(curve_image):
             self.draw_function(curve, domain_interval, x_axis_scale, y_axis_scale)
         elif len(curve_image) == 2:
             self.draw_parametrized_curve(
