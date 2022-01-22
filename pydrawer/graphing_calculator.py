@@ -29,12 +29,12 @@ class GraphingCalculator(turtle.Turtle):
         axis_width: int = 2,
     ) -> None:
         """
-        background_color(str):  color name or hex code
-        curve_color(str):    color name or hex code
-        curve_width(int):       integer value that specifies curve width
-        show_axis(bool):        draws axis if true
-        axis_color(str):        color name or hex code
-        axis_width(int):        axis value that specifies curve width
+        :param background_color: color name or hex code
+        :param curve_color: color name or hex code
+        :param curve_width: integer value that specifies curve width
+        :param show_axis: draws axis if true
+        :param axis_color: color name or hex code
+        :param axis_width: axis value that specifies curve width
         """
 
         turtle.Turtle.__init__(self)
@@ -66,32 +66,31 @@ class GraphingCalculator(turtle.Turtle):
         y_axis_scale: int = 10,
     ) -> None:
         """
-        Defines if a given curve is a function or a parametrized curve and
+        Determines if a given curve is a function or a parametrized curve and
         draws it.
+
+        :param curve: parametrized curve or function to draw
+        :param domain_interval: curve domain interval
+        :param x_axis_scale: x axis scaling factor
+        :param y_axis_scale: y axis scaling factor
         """
-        curve_image = curve(domain_interval[0])
-        if _is_int(curve_image) or _is_float(curve_image):
-            self.draw_function(curve, domain_interval, x_axis_scale, y_axis_scale)
-        elif len(curve_image) == 2:
-            self.draw_parametrized_curve(
+        curve_evaluation = curve(domain_interval[0])
+        if _is_int(curve_evaluation) or _is_float(curve_evaluation):
+            self._draw_function(curve, domain_interval, x_axis_scale, y_axis_scale)
+        elif len(curve_evaluation) == 2:
+            self._draw_parametrized_curve(
                 curve, domain_interval, x_axis_scale, y_axis_scale
             )
         else:
             raise ValueError("'curve' should be a function or parametrized curve")
 
-    def draw_function(
+    def _draw_function(
         self,
         f: Callable,
         domain_interval: tuple[int, int],
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
-        """
-        f(Callable):                        function to draw
-        domain_interval(tuple[int, int]):   x interval where the function is going to be drawn
-        x_axis_scale(int):                  x axis scaling factor
-        y_axis_scale(int):                  y axis scaling factor
-        """
         for x in range(domain_interval[0], domain_interval[1] + 1, 1):
             f_point = (
                 x_axis_scale * x,
@@ -102,19 +101,13 @@ class GraphingCalculator(turtle.Turtle):
             else:
                 self.goto(f_point)
 
-    def draw_parametrized_curve(
+    def _draw_parametrized_curve(
         self,
         parametrized_curve: Callable,
         domain_interval: tuple[int, int],
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
-        """
-        parametrized_curve(Callable):       curve to draw
-        domain_interval(tuple[int, int]):   t interval where the curve is going to be drawn
-        x_axis_scale(int):                  x axis scaling factor
-        y_axis_scale(int):                  y axis scaling factor
-        """
         for t in range(domain_interval[0], domain_interval[1] + 1, 1):
             f_vector = parametrized_curve(t)
             scaled_f_vector = (
@@ -151,6 +144,9 @@ class GraphingCalculator(turtle.Turtle):
         self.color(self.curve_color)
 
     def clear(self) -> None:
+        """
+        Clears the graphic calculator screen.
+        """
         turtle.clearscreen()
         if self.show_axis:
             self._draw_axis()

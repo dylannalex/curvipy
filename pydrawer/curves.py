@@ -1,3 +1,11 @@
+"""
+This module contains functions for modifying curves with linear transformations specified
+as matrices.
+
+Matrices used for the linear transformation are three dimensional and follows the same
+structure as numpy arrays (using three dimensional numpy arrays as matrices will also work).
+"""
+
 from typing import Callable, Union
 import math
 
@@ -12,8 +20,8 @@ def transform_curve(
     """
     Applies a linear transformation (matrix) to a curve.
 
-    curve(Callable):    parametrized curve
-    matrix(Matrix):     linear transformation's matrix
+    :param curve: parametrized curve
+    :param matrix: linear transformation 3x3 matrix (same structure as numpy arrays)
     """
     g = lambda t: curve(t)[0]
     m = lambda t: curve(t)[1]
@@ -27,8 +35,10 @@ def rotate_curve(curve: Callable, angle: Union[float, int]) -> Callable:
     """
     Rotates a curve anticlockwise by the given angle.
 
-    curve(Callable):    parametrized curve to rotate
-    angle(float, int):  angle in radians
+    :param curve: parametrized curve to rotate
+    :param angle: angle in radians
+
+    :return: rotated curve.
     """
     rotation_matrix = (
         (math.cos(angle), math.sin(angle)),
@@ -42,8 +52,10 @@ def scale_curve(curve: Callable, scalar: Union[float, int]) -> Callable:
     """
     Scales the given curve by the given scalar.
 
-    curve(Callable):        parametrized curve to scale
-    scalar(float, int):     scalar for scaling the curve
+    :param curve: parametrized curve to scale
+    :param scalar: scalar to scale curve
+
+    :return: scaled curve
     """
     scaling_matrix = ((scalar, 0), (0, scalar))
     return transform_curve(curve, scaling_matrix)
