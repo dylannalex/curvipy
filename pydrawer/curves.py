@@ -31,8 +31,8 @@ def rotate_curve(curve: Callable, angle: Union[float, int]) -> Callable:
     angle(float, int):  angle in radians
     """
     rotation_matrix = (
-        (math.cos(angle), math.cos(angle + math.pi / 4)),
-        (math.sin(angle), math.sin(angle + math.pi / 4)),
+        (math.cos(angle), math.sin(angle)),
+        (math.sin(angle), math.cos(angle)),
     )
 
     return transform_curve(curve, rotation_matrix)
