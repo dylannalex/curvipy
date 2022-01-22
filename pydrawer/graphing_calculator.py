@@ -21,13 +21,22 @@ def _is_float(result: Any) -> bool:
 class GraphingCalculator(turtle.Turtle):
     def __init__(
         self,
-        background_color: Union[tuple[int, int, int], str] = "white",
-        function_color: Union[tuple[int, int, int], str] = "black",
-        function_width: int = 3,
+        background_color: str = "white",
+        curve_color: str = "black",
+        curve_width: int = 3,
         show_axis: bool = True,
-        axis_color: Union[tuple[int, int, int], str] = "grey",
+        axis_color: str = "grey",
         axis_width: int = 2,
     ) -> None:
+        """
+        background_color(str):  color name or hex code
+        curve_color(str):    color name or hex code
+        curve_width(int):       integer value that specifies curve width
+        show_axis(bool):        draws axis if true
+        axis_color(str):        color name or hex code
+        axis_width(int):        axis value that specifies curve width
+        """
+
         turtle.Turtle.__init__(self)
         self.shapesize(0.1, 0.1, 0.1)
         self.shape("square")
@@ -35,8 +44,8 @@ class GraphingCalculator(turtle.Turtle):
         turtle.bgcolor(background_color)
 
         # Function attributes:
-        self.function_color = function_color
-        self.function_width = function_width
+        self.curve_color = curve_color
+        self.curve_width = curve_width
 
         # Axis attributes
         self.axis_color = axis_color
@@ -46,8 +55,8 @@ class GraphingCalculator(turtle.Turtle):
         if self.show_axis:
             self._draw_axis()
         else:
-            self.width(function_width)
-            self.color(function_color)
+            self.width(curve_width)
+            self.color(curve_color)
 
     def draw(
         self,
@@ -136,10 +145,10 @@ class GraphingCalculator(turtle.Turtle):
         self._goto_without_drawing((-w * 2, 0))
         self.goto((w * 2, 0))
 
-        self.color(self.function_color)
+        self.color(self.curve_color)
 
-        self.width(self.function_width)
-        self.color(self.function_color)
+        self.width(self.curve_width)
+        self.color(self.curve_color)
 
     def clear(self) -> None:
         turtle.clearscreen()
