@@ -15,7 +15,9 @@ or clone the repository:
 $ git clone https://github.com/dylannalex/curvipy.git
 ```
 
-## :pencil2: Usage
+## :pencil2: Basic usage
+
+This is a simple use guide. You can see all curvipy functionalities at [curvipy documentation](https://dylannalex.github.io/curvipy/).
 
 ### :pushpin: Drawing curves
 To start drawing curves you need to create a ```GraphingCalculator``` object:
