@@ -12,7 +12,7 @@ def _is_int(result: Any) -> bool:
 
 def _is_float(result: Any) -> bool:
     try:
-        int(result)
+        float(result)
         return True
     except Exception:
         return False
