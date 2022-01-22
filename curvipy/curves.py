@@ -2,8 +2,8 @@
 This module contains functions for modifying curves with linear transformations specified
 as matrices.
 
-Matrices used for the linear transformation are three dimensional and follows the same
-structure as numpy arrays (using three dimensional numpy arrays as matrices will also work).
+Matrices used for the linear transformation have a 2x2 dimension and follow the same
+structure as numpy arrays (using 2x2 numpy arrays as matrices will also work).
 """
 
 from typing import Callable, Union
@@ -21,7 +21,7 @@ def transform_curve(
     Applies a linear transformation (matrix) to a curve.
 
     :param curve: parametrized curve
-    :param matrix: linear transformation 3x3 matrix (same structure as numpy arrays)
+    :param matrix: linear transformation 2x2 matrix (same structure as numpy arrays)
     """
     g = lambda t: curve(t)[0]
     m = lambda t: curve(t)[1]

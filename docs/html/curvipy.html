@@ -51,8 +51,8 @@
 <span id="curvipy-curves-module"></span><h2>curvipy.curves module<a class="headerlink" href="#module-curvipy.curves" title="Permalink to this headline">¶</a></h2>
 <p>This module contains functions for modifying curves with linear transformations specified
 as matrices.</p>
-<p>Matrices used for the linear transformation are three dimensional and follows the same
-structure as numpy arrays (using three dimensional numpy arrays as matrices will also work).</p>
+<p>Matrices used for the linear transformation have a 2x2 dimension and follow the same
+structure as numpy arrays (using 2x2 numpy arrays as matrices will also work).</p>
 <dl class="py function">
 <dt class="sig sig-object py" id="curvipy.curves.rotate_curve">
 <span class="sig-prename descclassname"><span class="pre">curvipy.curves.</span></span><span class="sig-name descname"><span class="pre">rotate_curve</span></span><span class="sig-paren">(</span><em class="sig-param"><span class="n"><span class="pre">curve</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Callable</span></span></em>, <em class="sig-param"><span class="n"><span class="pre">angle</span></span><span class="p"><span class="pre">:</span></span><span class="w"> </span><span class="n"><span class="pre">Union</span><span class="p"><span class="pre">[</span></span><span class="pre">float</span><span class="p"><span class="pre">,</span></span><span class="w"> </span><span class="pre">int</span><span class="p"><span class="pre">]</span></span></span></em><span class="sig-paren">)</span> <span class="sig-return"><span class="sig-return-icon">&#x2192;</span> <span class="sig-return-typehint"><span class="pre">Callable</span></span></span><a class="reference internal" href="_modules/curvipy/curves.html#rotate_curve"><span class="viewcode-link"><span class="pre">[source]</span></span></a><a class="headerlink" href="#curvipy.curves.rotate_curve" title="Permalink to this definition">¶</a></dt>
@@ -95,7 +95,7 @@ structure as numpy arrays (using three dimensional numpy arrays as matrices will
 <dt class="field-odd">Parameters</dt>
 <dd class="field-odd"><ul class="simple">
 <li><p><strong>curve</strong> – parametrized curve</p></li>
-<li><p><strong>matrix</strong> – linear transformation 3x3 matrix (same structure as numpy arrays)</p></li>
+<li><p><strong>matrix</strong> – linear transformation 2x2 matrix (same structure as numpy arrays)</p></li>
 </ul>
 </dd>
 </dl>
