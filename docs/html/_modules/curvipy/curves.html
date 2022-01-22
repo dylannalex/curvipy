@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pydrawer.curves &#8212; pydrawer 0.0.2 documentation</title>
+    <title>curvipy.curves &#8212; curvipy 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/pyramid.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -31,9 +31,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">pydrawer 0.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">curvipy 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">pydrawer.curves</a></li> 
+        <li class="nav-item nav-item-this"><a href="">curvipy.curves</a></li> 
       </ul>
     </div>  
 
@@ -42,7 +42,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for pydrawer.curves</h1><div class="highlight"><pre>
+  <h1>Source code for curvipy.curves</h1><div class="highlight"><pre>
 <span></span><span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">This module contains functions for modifying curves with linear transformations specified</span>
 <span class="sd">as matrices.</span>
@@ -55,7 +55,7 @@
 <span class="kn">import</span> <span class="nn">math</span>
 
 
-<div class="viewcode-block" id="transform_curve"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.curves.transform_curve">[docs]</a><span class="k">def</span> <span class="nf">transform_curve</span><span class="p">(</span>
+<div class="viewcode-block" id="transform_curve"><a class="viewcode-back" href="../../curvipy.html#curvipy.curves.transform_curve">[docs]</a><span class="k">def</span> <span class="nf">transform_curve</span><span class="p">(</span>
     <span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
     <span class="n">matrix</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span>
         <span class="nb">tuple</span><span class="p">[</span><span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">]],</span>
@@ -76,7 +76,7 @@
     <span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="rotate_curve"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.curves.rotate_curve">[docs]</a><span class="k">def</span> <span class="nf">rotate_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="rotate_curve"><a class="viewcode-back" href="../../curvipy.html#curvipy.curves.rotate_curve">[docs]</a><span class="k">def</span> <span class="nf">rotate_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">angle</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Rotates a curve anticlockwise by the given angle.</span>
 
@@ -93,7 +93,7 @@
     <span class="k">return</span> <span class="n">transform_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">,</span> <span class="n">rotation_matrix</span><span class="p">)</span></div>
 
 
-<div class="viewcode-block" id="scale_curve"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.curves.scale_curve">[docs]</a><span class="k">def</span> <span class="nf">scale_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
+<div class="viewcode-block" id="scale_curve"><a class="viewcode-back" href="../../curvipy.html#curvipy.curves.scale_curve">[docs]</a><span class="k">def</span> <span class="nf">scale_curve</span><span class="p">(</span><span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">scalar</span><span class="p">:</span> <span class="n">Union</span><span class="p">[</span><span class="nb">float</span><span class="p">,</span> <span class="nb">int</span><span class="p">])</span> <span class="o">-&gt;</span> <span class="n">Callable</span><span class="p">:</span>
     <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">    Scales the given curve by the given scalar.</span>
 
@@ -135,9 +135,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">pydrawer 0.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">curvipy 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">pydrawer.curves</a></li> 
+        <li class="nav-item nav-item-this"><a href="">curvipy.curves</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">

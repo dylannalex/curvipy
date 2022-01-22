@@ -1,7 +1,7 @@
-pydrawer
-========
+curvipy
+=======
 
 .. toctree::
    :maxdepth: 4
 
-   pydrawer
+   curvipy

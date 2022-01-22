@@ -1,18 +1,18 @@
-# pydrawer :triangular_ruler:	
+# curvipy :triangular_ruler:	
 
-![licence](https://img.shields.io/github/license/dylannalex/pydrawer?color=blue)
+![licence](https://img.shields.io/github/license/dylannalex/curvipy?color=blue)
 
 The Python package for visualizing curves and linear transformations in a super simple way.
 
 ## :pencil2: Installation
 
-Install pydrawer package with pip:
+Install curvipy package with pip:
 ```
-$ pip install pydrawer
+$ pip install curvipy
 ```
 or clone the repository:
 ```
-$ git clone https://github.com/dylannalex/pydrawer.git
+$ git clone https://github.com/dylannalex/curvipy.git
 ```
 
 ## :pencil2: Usage
@@ -21,12 +21,12 @@ $ git clone https://github.com/dylannalex/pydrawer.git
 To start drawing curves you need to create a ```GraphingCalculator``` object:
 
 ```
-from pydrawer import GraphingCalculator
+from curvipy import GraphingCalculator
 
 graphing_calculator = GraphingCalculator()
 ```
 
-**pydrawer** let you draw parametrized curves and mathematical functions. Lets create and draw
+**curvipy** let you draw parametrized curves and mathematical functions. Lets create and draw
 the square root of x function for this example:
 
 ```
@@ -47,10 +47,10 @@ graphing_calculator.draw(square_root, (0, 25))  # We want to draw the curve from
 
 ### :pushpin: Linear transformations
 
-**pydrawer** provides a ```curves``` module which contains functions for modifying curves with linear
+**curvipy** provides a ```curves``` module which contains functions for modifying curves with linear
 transformations.
 ```
-from pydrawer import curves
+from curvipy import curves
 ```
 
 #### :round_pushpin: ```curves.transform_curve()```

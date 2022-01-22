@@ -9,17 +9,18 @@
 # If extensions (or modules to document with autodoc) are in another directory,
 # add these directories to sys.path here. If the directory is relative to the
 # documentation root, use os.path.abspath to make it absolute, like shown here.
-#
+
 import os
 import sys
 
 sys.path.insert(0, os.path.abspath(".."))
 
-import pydrawer
+import curvipy
+
 
 # -- Project information -----------------------------------------------------
 
-project = "pydrawer"
+project = "curvipy"
 copyright = "2022, Dylan Tintenfich"
 author = "Dylan Tintenfich"
 
@@ -38,6 +39,7 @@ extensions = [
     "sphinx.ext.viewcode",
 ]
 
+
 # Add any paths that contain templates here, relative to this directory.
 templates_path = ["_templates"]
 
@@ -51,7 +53,6 @@ exclude_patterns = ["_build", "Thumbs.db", ".DS_Store"]
 
 # The theme to use for HTML and HTML Help pages.  See the documentation for
 # a list of builtin themes.
-#
 html_theme = "pyramid"
 
 # Add any paths that contain custom static files (such as style sheets) here,

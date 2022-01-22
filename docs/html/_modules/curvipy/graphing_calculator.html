@@ -5,7 +5,7 @@
   <head>
     <meta charset="utf-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <title>pydrawer.graphing_calculator &#8212; pydrawer 0.0.2 documentation</title>
+    <title>curvipy.graphing_calculator &#8212; curvipy 0.0.2 documentation</title>
     <link rel="stylesheet" type="text/css" href="../../_static/pygments.css" />
     <link rel="stylesheet" type="text/css" href="../../_static/pyramid.css" />
     <script data-url_root="../../" id="documentation_options" src="../../_static/documentation_options.js"></script>
@@ -31,9 +31,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">pydrawer 0.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">curvipy 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" accesskey="U">Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">pydrawer.graphing_calculator</a></li> 
+        <li class="nav-item nav-item-this"><a href="">curvipy.graphing_calculator</a></li> 
       </ul>
     </div>  
 
@@ -42,7 +42,7 @@
         <div class="bodywrapper">
           <div class="body" role="main">
             
-  <h1>Source code for pydrawer.graphing_calculator</h1><div class="highlight"><pre>
+  <h1>Source code for curvipy.graphing_calculator</h1><div class="highlight"><pre>
 <span></span><span class="kn">from</span> <span class="nn">typing</span> <span class="kn">import</span> <span class="n">Any</span><span class="p">,</span> <span class="n">Callable</span><span class="p">,</span> <span class="n">Union</span>
 <span class="kn">import</span> <span class="nn">turtle</span>
 
@@ -63,7 +63,7 @@
         <span class="k">return</span> <span class="kc">False</span>
 
 
-<div class="viewcode-block" id="GraphingCalculator"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.graphing_calculator.GraphingCalculator">[docs]</a><span class="k">class</span> <span class="nc">GraphingCalculator</span><span class="p">(</span><span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">):</span>
+<div class="viewcode-block" id="GraphingCalculator"><a class="viewcode-back" href="../../curvipy.html#curvipy.graphing_calculator.GraphingCalculator">[docs]</a><span class="k">class</span> <span class="nc">GraphingCalculator</span><span class="p">(</span><span class="n">turtle</span><span class="o">.</span><span class="n">Turtle</span><span class="p">):</span>
     <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">background_color</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&quot;white&quot;</span><span class="p">,</span>
@@ -103,7 +103,7 @@
             <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="n">curve_width</span><span class="p">)</span>
             <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="n">curve_color</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GraphingCalculator.draw"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.graphing_calculator.GraphingCalculator.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span>
+<div class="viewcode-block" id="GraphingCalculator.draw"><a class="viewcode-back" href="../../curvipy.html#curvipy.graphing_calculator.GraphingCalculator.draw">[docs]</a>    <span class="k">def</span> <span class="nf">draw</span><span class="p">(</span>
         <span class="bp">self</span><span class="p">,</span>
         <span class="n">curve</span><span class="p">:</span> <span class="n">Callable</span><span class="p">,</span>
         <span class="n">domain_interval</span><span class="p">:</span> <span class="nb">tuple</span><span class="p">[</span><span class="nb">int</span><span class="p">,</span> <span class="nb">int</span><span class="p">],</span>
@@ -188,7 +188,7 @@
         <span class="bp">self</span><span class="o">.</span><span class="n">width</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curve_width</span><span class="p">)</span>
         <span class="bp">self</span><span class="o">.</span><span class="n">color</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">curve_color</span><span class="p">)</span>
 
-<div class="viewcode-block" id="GraphingCalculator.clear"><a class="viewcode-back" href="../../pydrawer.html#pydrawer.graphing_calculator.GraphingCalculator.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<div class="viewcode-block" id="GraphingCalculator.clear"><a class="viewcode-back" href="../../curvipy.html#curvipy.graphing_calculator.GraphingCalculator.clear">[docs]</a>    <span class="k">def</span> <span class="nf">clear</span><span class="p">(</span><span class="bp">self</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
         <span class="sd">&quot;&quot;&quot;</span>
 <span class="sd">        Clears the graphic calculator screen.</span>
 <span class="sd">        &quot;&quot;&quot;</span>
@@ -226,9 +226,9 @@
         <li class="right" >
           <a href="../../py-modindex.html" title="Python Module Index"
              >modules</a> |</li>
-        <li class="nav-item nav-item-0"><a href="../../index.html">pydrawer 0.0.2 documentation</a> &#187;</li>
+        <li class="nav-item nav-item-0"><a href="../../index.html">curvipy 0.0.2 documentation</a> &#187;</li>
           <li class="nav-item nav-item-1"><a href="../index.html" >Module code</a> &#187;</li>
-        <li class="nav-item nav-item-this"><a href="">pydrawer.graphing_calculator</a></li> 
+        <li class="nav-item nav-item-this"><a href="">curvipy.graphing_calculator</a></li> 
       </ul>
     </div>
     <div class="footer" role="contentinfo">
