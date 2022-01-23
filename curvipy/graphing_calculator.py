@@ -57,9 +57,6 @@ class GraphingCalculator(turtle.Turtle):
 
         if self.show_axis:
             self._draw_axis()
-        else:
-            self.width(curve_width)
-            self.color(curve_color)
 
     def draw(
         self,
@@ -77,6 +74,8 @@ class GraphingCalculator(turtle.Turtle):
         :param x_axis_scale: x axis scaling factor
         :param y_axis_scale: y axis scaling factor
         """
+        self.color(self.curve_color)
+        self.width(self.curve_width)
         curve_evaluation = curve(domain_interval[0])
         if _is_int(curve_evaluation) or _is_float(curve_evaluation):
             self._draw_function(curve, domain_interval, x_axis_scale, y_axis_scale)
@@ -140,11 +139,6 @@ class GraphingCalculator(turtle.Turtle):
         # x axis
         self._goto_without_drawing((-w * 2, 0))
         self.goto((w * 2, 0))
-
-        self.color(self.curve_color)
-
-        self.width(self.curve_width)
-        self.color(self.curve_color)
 
     def clear(self) -> None:
         """
