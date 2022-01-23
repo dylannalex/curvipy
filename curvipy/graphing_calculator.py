@@ -43,7 +43,10 @@ class GraphingCalculator(turtle.Turtle):
         self.speed("fastest")
         turtle.bgcolor(background_color)
 
-        # Function attributes:
+        # Screen attributes
+        self.background_color = background_color
+
+        # Function attributes
         self.curve_color = curve_color
         self.curve_width = curve_width
 
@@ -148,5 +151,6 @@ class GraphingCalculator(turtle.Turtle):
         Clears the graphic calculator screen.
         """
         turtle.clearscreen()
+        turtle.bgcolor(self.background_color)
         if self.show_axis:
             self._draw_axis()
