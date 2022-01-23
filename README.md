@@ -1,5 +1,6 @@
 # curvipy :triangular_ruler:	
 
+[![Downloads](https://pepy.tech/badge/curvipy)](https://pepy.tech/project/curvipy)
 ![licence](https://img.shields.io/github/license/dylannalex/curvipy?color=blue)
 
 The Python package for visualizing curves and linear transformations in a super simple way.
