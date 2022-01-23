@@ -5,6 +5,10 @@
 
 The Python package for visualizing curves and linear transformations in a super simple way.
 
+<p align="center">
+  <img width="400" height="400" src="../media/rotating_circle.gif?raw=true">
+</p>
+
 ## :pencil2: Installation
 
 Install curvipy package with pip:
