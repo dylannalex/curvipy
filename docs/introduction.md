@@ -17,7 +17,7 @@ The next step is to define the curve you want to draw. In **curvipy** this can b
 def square_root(x):
     return x ** (1 / 2)
 
-graphing_calculator.draw(square_root, (0, 25))  # We want to draw the function from x = 0 to x = 25
+graphing_calculator.draw_curve(square_root, (0, 25))  # We want to draw the function from x = 0 to x = 25
 ```
 
 - Defining the curve as a parametrized function ```f(t) = <x(t), y(t)>```: 
@@ -25,7 +25,7 @@ graphing_calculator.draw(square_root, (0, 25))  # We want to draw the function f
 def square_root(t):
     return t, t ** (1 / 2)
 
-graphing_calculator.draw(square_root, (0, 25))  # We want to draw the curve from t = 0 to t = 25
+graphing_calculator.draw_curve(square_root, (0, 25))  # We want to draw the curve from t = 0 to t = 25
 ```
 
 Check out [graphing_calculator.md](./graphing_calculator.md) to see all ```GraphingCalculator``` attributes and methods.

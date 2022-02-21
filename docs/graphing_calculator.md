@@ -9,15 +9,22 @@ graphing_calculator = GraphingCalculator(
     background_color="white",
     curve_color="black",
     curve_width=3,
+    vector_color="green",
+    vector_width=3,
+    vector_head_size=10,
     show_axis=True,
     axis_color="grey",
     axis_width=2,
 )
+# The attribute values shown above are the default values 
 ```
 
 - _**background_color:**_ color name or hex code
 - _**curve_color:**_ color name or hex code
 - _**curve_width:**_ integer value
+- _**vector_color:**_ color name or hex code
+- _**vector_width:**_ integer value
+- _**vector_head_size:**_ integer value
 - _**show_axis:**_ boolean value
 - _**axis_color:**_ color name or hex code
 - _**axis_width:**_ integer value
@@ -31,19 +38,20 @@ For example:
 ```
 graphing_calculator.curve_color = "red"
 graphing_calculator.curve_width = 4
+graphing_calculator.vector_color = "#FF5A5F"
 ```
 
 ### :pushpin: Methods
 
-#### :round_pushpin: graphing_calculator.draw():
+#### :round_pushpin: graphing_calculator.draw_curve()
 
 This method draws the given curve.
 
 ```
-graphing_calculator.draw(curve, domain_interval, x_axis_scale=10, y_axis_scale=10)
+graphing_calculator.draw_curve(curve, domain_interval, x_axis_scale=10, y_axis_scale=10)
 ```
-- _**curve:**_ curve to be drawn
-- _**domain_interval:**_ curve function domain interval. See example below
+- _**curve:**_ curve to draw
+- _**domain_interval:**_ curve function domain interval
 ```
 def f(x):
     return 1/x 
@@ -52,10 +60,10 @@ def f(x):
 # valid domain_interval = (1, 10)
 # invalid domain_interval = (-10, 10), since 0 is between -10 and 10
 
-graphing_calculator.draw(f, (-10, -1))
-graphing_calculator.draw(f, (1, 10))
+graphing_calculator.draw_curve(f, (-10, -1))
+graphing_calculator.draw_curve(f, (1, 10))
 ```
-- _**x_axis_scale:**_ integer to scale x axis (default is 10). See example below
+- _**x_axis_scale:**_ integer to scale x axis (default is 10)
 ```
 def f(x):
     return x ** (1 / 2)
@@ -66,9 +74,9 @@ def f(x):
 # that f(x) goes off the screen before reaching x=100.
 # We can fix that by scaling x axis by a smaller scalar.
 
-graphing_calculator.draw(f, (0, 100), x_axis_scale=3)
+graphing_calculator.draw_curve(f, (0, 100), x_axis_scale=3)
 ```
-- _**y_axis_scale:**_  integer to scale y axis (default is 10). See example below
+- _**y_axis_scale:**_  integer to scale y axis (default is 10)
 ```
 def f(x):
     return x**2 
@@ -80,9 +88,52 @@ def f(x):
 # specified domain interval.
 # We can fix this by scaling y axis by a smaller scalar.
 
-graphing_calculator.draw(f, (-10, 10), y_axis_scale=1)
+graphing_calculator.draw_curve(f, (-10, 10), y_axis_scale=1)
 ```
 
-#### :round_pushpin: graphing_calculator.clear():
+#### :round_pushpin: graphing_calculator.draw_animated_curve()
+
+This method is based on the idea that the graph of a parametrized function ```f(t) = <x(t), y(t)>``` is nothing but the curve formed by joining all the vectors ```<x(t), y(t)>``` head. <br>
+```graphing_calculator.draw_animated_curve()``` illustrates that by first drawing the set of vectors ```{<x(t), y(t)> | t ∈ R}``` and then joining their head.
+
+```
+graphing_calculator.draw_animated_curve(
+    parametrized_function, domain_interval, vector_frequency, x_axis_scale, y_axis_scale
+)
+```
+
+- _**parametrized_function:**_ curve's parametrized function
+- _**domain_interval:**_ curve function domain interval
+- _**vector_frequency:**_ the frequency which vectors will be drawn. The lower frequency the more vectors (default is 2)
+- _**x_axis_scale:**_ integer to scale x axis (default is 10)
+- _**y_axis_scale:**_  integer to scale y axis (default is 10)
+
+```
+def f(t):
+    return t, t + 10
+
+graphing_calculator.draw_animated_curve(f, (-10, 10), vector_frequency=3)
+```
+```vector_frequency=3``` means that a vector will be drawn every time ```t``` changes 3 units, starting by ```t=-10``` (which is the first value of our domain interval). This means that for the values of ```t``` ```{-10, -7, -4, -1, 2, 5, 8}``` a vector will be drawn, generating the following set of vectors: ```{f(-10), f(-7), f(-4), f(-1), f(2), f(5), f(8)}```. <br>
+Setting a negative value for ```vector_frequency``` wont draw any vector. In this scenario ```graphing_calculator.draw_animated_curve()``` will produce the same result as ```graphing_calculator.draw_curve()```.
+
+
+#### :round_pushpin: graphing_calculator.draw_vector()
+
+This method draws the given vector.
+
+```
+graphing_calculator.draw_vector(vector, x_axis_scale=10, y_axis_scale=10)
+```
+
+- _**vector:**_ two-dimensional vector to draw
+- _**x_axis_scale:**_ integer to scale x axis (default is 10)
+- _**y_axis_scale:**_  integer to scale y axis (default is 10)
+```
+vector = (1, 2)
+graphing_calculator.draw_vector(vector, x_axis_scale=10, y_axis_scale=10)
+```
+
+#### :round_pushpin: graphing_calculator.clear()
 
 This method clears the graphic calculator screen. Changes made to ```background_color```, ```show_axis```, ```axis_color``` and ```axis_width``` will be applied after calling this method.
