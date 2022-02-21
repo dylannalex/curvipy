@@ -116,7 +116,7 @@ class GraphingCalculator(turtle.Turtle):
         self._goto_without_drawing(scaled_vector)
         self.goto(right_head_endpoint)
 
-    def draw(
+    def draw_curve(
         self,
         curve: Callable,
         domain_interval: tuple[int, int],
@@ -132,17 +132,42 @@ class GraphingCalculator(turtle.Turtle):
         :param x_axis_scale: x axis scaling factor
         :param y_axis_scale: y axis scaling factor
         """
-        self.color(self.curve_color)
-        self.width(self.curve_width)
         curve_evaluation = curve(domain_interval[0])
         if _is_int(curve_evaluation) or _is_float(curve_evaluation):
             self._draw_function(curve, domain_interval, x_axis_scale, y_axis_scale)
         elif len(curve_evaluation) == 2:
-            self._draw_parametrized_curve(
+            self._draw_parametrized_function(
                 curve, domain_interval, x_axis_scale, y_axis_scale
             )
         else:
             raise ValueError("'curve' should be a function or parametrized curve")
+
+    def draw_animated_curve(
+        self,
+        parametrized_function: Callable,
+        domain_interval: tuple[int, int],
+        vector_frequency: int = 2,
+        x_axis_scale: int = 10,
+        y_axis_scale: int = 10,
+    ) -> None:
+        """
+        Given a parametrized function f(t) = <x(t), y(t)>, draws a the
+        set of vectors {<x(t), y(t)> | t e domain_interval} and then
+        draws f(t) graph.
+
+        :param parametrized_function: curve to draw
+        :param domain_interval: curve domain interval
+        :param vector_frequency: the frequency which vectors will be
+        drawn. The lower frequency the more vectors
+        :param x_axis_scale: x axis scaling factor
+        :param y_axis_scale: y axis scaling factor
+        """
+        for t in range(domain_interval[0], domain_interval[1] + 1, vector_frequency):
+            f_vector = parametrized_function(t)
+            self.draw_vector(f_vector, x_axis_scale, y_axis_scale)
+        self._draw_parametrized_function(
+            parametrized_function, domain_interval, x_axis_scale, y_axis_scale
+        )
 
     def _draw_function(
         self,
@@ -151,6 +176,8 @@ class GraphingCalculator(turtle.Turtle):
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
+        self.color(self.curve_color)
+        self.width(self.curve_width)
         for x in range(domain_interval[0], domain_interval[1] + 1, 1):
             f_point = (
                 x_axis_scale * x,
@@ -161,15 +188,17 @@ class GraphingCalculator(turtle.Turtle):
             else:
                 self.goto(f_point)
 
-    def _draw_parametrized_curve(
+    def _draw_parametrized_function(
         self,
-        parametrized_curve: Callable,
+        parametrized_function: Callable,
         domain_interval: tuple[int, int],
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
+        self.color(self.curve_color)
+        self.width(self.curve_width)
         for t in range(domain_interval[0], domain_interval[1] + 1, 1):
-            f_vector = parametrized_curve(t)
+            f_vector = parametrized_function(t)
             scaled_f_vector = (
                 x_axis_scale * f_vector[0],
                 y_axis_scale * f_vector[1],
