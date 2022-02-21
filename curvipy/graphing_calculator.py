@@ -1,4 +1,5 @@
-from typing import Any, Callable, Union
+from typing import Any, Callable
+from math import sqrt, sin, acos, cos, pi
 import turtle
 
 
@@ -23,7 +24,10 @@ class GraphingCalculator(turtle.Turtle):
         self,
         background_color: str = "white",
         curve_color: str = "black",
-        curve_width: int = 3,
+        curve_width: int = 4,
+        vector_color: str = "green",
+        vector_width: int = 3,
+        vector_head_size: int = 10,
         show_axis: bool = True,
         axis_color: str = "grey",
         axis_width: int = 2,
@@ -46,9 +50,14 @@ class GraphingCalculator(turtle.Turtle):
         # Screen attributes
         self.background_color = background_color
 
-        # Function attributes
+        # Curves attributes
         self.curve_color = curve_color
         self.curve_width = curve_width
+
+        # Vectors attributes
+        self.vector_color = vector_color
+        self.vector_width = vector_width
+        self.vector_head_size = vector_head_size
 
         # Axis attributes
         self.axis_color = axis_color
@@ -57,6 +66,55 @@ class GraphingCalculator(turtle.Turtle):
 
         if self.show_axis:
             self._draw_axis()
+
+    def draw_vector(
+        self,
+        vector: tuple[float, float],
+        x_axis_scale: int = 10,
+        y_axis_scale: int = 10,
+    ) -> None:
+        # Check if vector is the cero vector (v = <0, 0>)
+        vector_norm = sqrt(vector[0] ** 2 + vector[1] ** 2)
+        if vector_norm == 0:
+            return
+
+        # Graphing calculator setup
+        self.color(self.vector_color)
+        self.width(self.vector_width)
+        self._goto_without_drawing((0, 0))
+
+        # Draw vector
+        scaled_vector = (vector[0] * x_axis_scale, vector[1] * y_axis_scale)
+        self.goto(scaled_vector)
+
+        # Draw vector head
+        vector_angle = acos(vector[0] / vector_norm)
+
+        if vector[1] < 0:
+            vector_angle *= -1
+
+        left_head_vector = (
+            self.vector_head_size * cos(vector_angle + pi * 5 / 4),
+            self.vector_head_size * sin(vector_angle + pi * 5 / 4),
+        )
+        left_head_endpoint = (
+            scaled_vector[0] + left_head_vector[0],
+            scaled_vector[1] + left_head_vector[1],
+        )
+
+        self.goto(left_head_endpoint)
+
+        right_head_vector = (
+            self.vector_head_size * cos(vector_angle - pi * 5 / 4),
+            self.vector_head_size * sin(vector_angle - pi * 5 / 4),
+        )
+        right_head_endpoint = (
+            scaled_vector[0] + right_head_vector[0],
+            scaled_vector[1] + right_head_vector[1],
+        )
+
+        self._goto_without_drawing(scaled_vector)
+        self.goto(right_head_endpoint)
 
     def draw(
         self,
