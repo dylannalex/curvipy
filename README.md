@@ -26,4 +26,4 @@ $ git clone https://github.com/dylannalex/curvipy.git
 
 ## :pencil2: Usage
 
-One of the main goals of curvpy is to be simple to use. You can check out the curvipy use guide HERE.
+One of the main goals of curvpy is to be simple to use. You can check out the curvipy use guide [HERE](/docs/introduction.md).

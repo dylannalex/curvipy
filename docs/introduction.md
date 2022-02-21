@@ -28,11 +28,10 @@ def square_root(t):
 graphing_calculator.draw(square_root, (0, 25))  # We want to draw the curve from t = 0 to t = 25
 ```
 
-Check out graphing_calculator.md to see all ```GraphingCalculator``` attributes and methods.
+Check out [graphing_calculator.md](./graphing_calculator.md) to see all ```GraphingCalculator``` attributes and methods.
 
 
 ### :pushpin: Linear transformations
 
 **curvipy** provides a ```lintrans``` module which contains functions to apply linear transformations to curves.
-Check out lintrans.md to see you can do with ```curvipy.lintrans``` module.
-
+Check out [lintrans.md](./lintrans.md) to see you can do with ```curvipy.lintrans``` module.
