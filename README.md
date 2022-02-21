@@ -3,8 +3,8 @@
 [![Downloads](https://pepy.tech/badge/curvipy)](https://pepy.tech/project/curvipy)
 ![licence](https://img.shields.io/github/license/dylannalex/curvipy?color=blue)
 
-curvipy is a Python package that aims to provide simple tools to learn and teach 
-mathematical parameterized functions and linear transformations with animations.
+curvipy is a Python package that provides simple tools to teach and learn
+mathematical functions, curves and linear transformations.
 
 <p align="center">
   <img width="400" height="400" src="../media/rotating_circle.gif?raw=true">
