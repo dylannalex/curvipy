@@ -1,6 +1,6 @@
 import numpy as np
 from curvipy import GraphingCalculator
-from curvipy import curves
+from curvipy import lintrans
 from time import sleep
 
 """
@@ -53,11 +53,11 @@ sleep(2)
 calc.clear()
 
 print("Drawing curve transformed by matrix AB")
-calc.draw(curves.transform_curve(f, AB), (-20, 20))
+calc.draw(lintrans.transform_curve(f, AB), (-20, 20))
 sleep(2)
 calc.clear()
 
 print("Drawing curve transformed by matrix BA")
 BA = np.matmul(B, A)
-calc.draw(curves.transform_curve(f, BA), (-20, 20))
+calc.draw(lintrans.transform_curve(f, BA), (-20, 20))
 sleep(2)

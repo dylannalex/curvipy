@@ -1,5 +1,5 @@
 from curvipy import GraphingCalculator
-from curvipy import curves
+from curvipy import lintrans
 from turtle import exitonclick
 from time import sleep
 import math
@@ -17,10 +17,10 @@ def lower_semi_circle(t, radius):
 
 
 def draw_rotated_circle(calc: GraphingCalculator, radius, angle):
-    rotated_upper_semi_circle = curves.rotate_curve(
+    rotated_upper_semi_circle = lintrans.rotate_curve(
         lambda t: upper_semi_circle(t, radius), angle
     )
-    rotated_lower_semi_circle = curves.rotate_curve(
+    rotated_lower_semi_circle = lintrans.rotate_curve(
         lambda t: lower_semi_circle(t, radius), angle
     )
 
