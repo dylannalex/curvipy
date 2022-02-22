@@ -7,7 +7,7 @@ curvipy is a Python package that provides simple tools to teach and learn
 mathematical functions, curves and linear transformations.
 
 <p align="center">
-  <img width="400" height="400" src="../media/rotating_circle.gif?raw=true">
+  <img width="400" height="400" src="../media/demo.gif?raw=true">
 </p>
 
 _**NOTE:**_ curvipy should not be used as a precise graphing calculator, but as a rapid way of
