@@ -4,7 +4,7 @@
 ### :pushpin: Getting started
 To start drawing curves you need to create a ```GraphingCalculator``` object:
 
-```
+```python
 from curvipy import GraphingCalculator
 
 graphing_calculator = GraphingCalculator()
@@ -13,7 +13,8 @@ graphing_calculator = GraphingCalculator()
 The next step is to define the curve you want to draw. In **curvipy** this can be done by:
 
 - Defining the curve as a function ```y = f(x)```: 
-```
+  
+```python
 def square_root(x):
     return x ** (1 / 2)
 
@@ -21,7 +22,8 @@ graphing_calculator.draw_curve(square_root, (0, 25))  # We want to draw the func
 ```
 
 - Defining the curve as a parametrized function ```f(t) = <x(t), y(t)>```: 
-```
+
+```python
 def square_root(t):
     return t, t ** (1 / 2)
 

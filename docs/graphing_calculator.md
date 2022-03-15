@@ -1,7 +1,8 @@
 ## :pencil2: GraphingCalculator
 
 ### :pushpin: Attributes
-```
+
+```python
 from curvipy import GraphingCalculator
 
 
@@ -31,11 +32,14 @@ graphing_calculator = GraphingCalculator(
 
 
 All this are public attributes. You can easily change their value as shown below:
-```
+
+```python
 graphing_calculator.attribute_name = attribute_value
 ```
+
 For example:
-```
+
+```python
 graphing_calculator.curve_color = "red"
 graphing_calculator.curve_width = 4
 graphing_calculator.vector_color = "#FF5A5F"
@@ -47,12 +51,14 @@ graphing_calculator.vector_color = "#FF5A5F"
 
 This method draws the given curve.
 
-```
+```python
 graphing_calculator.draw_curve(curve, domain_interval, x_axis_scale=10, y_axis_scale=10)
 ```
+
 - _**curve:**_ curve to draw
 - _**domain_interval:**_ curve function domain interval
-```
+
+```python
 def f(x):
     return 1/x 
 
@@ -63,8 +69,10 @@ def f(x):
 graphing_calculator.draw_curve(f, (-10, -1))
 graphing_calculator.draw_curve(f, (1, 10))
 ```
+
 - _**x_axis_scale:**_ integer to scale x axis (default is 10)
-```
+
+```python
 def f(x):
     return x ** (1 / 2)
 
@@ -76,8 +84,10 @@ def f(x):
 
 graphing_calculator.draw_curve(f, (0, 100), x_axis_scale=3)
 ```
+
 - _**y_axis_scale:**_  integer to scale y axis (default is 10)
-```
+
+```python
 def f(x):
     return x**2 
 
@@ -96,7 +106,7 @@ graphing_calculator.draw_curve(f, (-10, 10), y_axis_scale=1)
 This method is based on the idea that the graph of a parametrized function ```f(t) = <x(t), y(t)>``` is nothing but the curve formed by joining all the vectors ```<x(t), y(t)>``` head. <br>
 ```graphing_calculator.draw_animated_curve()``` illustrates that by first drawing the set of vectors ```{<x(t), y(t)> | t ∈ R}``` and then joining their head.
 
-```
+```python
 graphing_calculator.draw_animated_curve(
     parametrized_function, domain_interval, vector_frequency, x_axis_scale, y_axis_scale
 )
@@ -108,12 +118,13 @@ graphing_calculator.draw_animated_curve(
 - _**x_axis_scale:**_ integer to scale x axis (default is 10)
 - _**y_axis_scale:**_  integer to scale y axis (default is 10)
 
-```
+```python
 def f(t):
     return t, t + 10
 
 graphing_calculator.draw_animated_curve(f, (-10, 10), vector_frequency=3)
 ```
+
 ```vector_frequency=3``` means that a vector will be drawn every time ```t``` changes 3 units, starting by ```t=-10``` (which is the first value of our domain interval). This means that for the values of ```t``` ```{-10, -7, -4, -1, 2, 5, 8}``` a vector will be drawn, generating the following set of vectors: ```{f(-10), f(-7), f(-4), f(-1), f(2), f(5), f(8)}```. <br>
 Setting a negative value for ```vector_frequency``` wont draw any vector. In this scenario ```graphing_calculator.draw_animated_curve()``` will produce the same result as ```graphing_calculator.draw_curve()```.
 
@@ -122,14 +133,15 @@ Setting a negative value for ```vector_frequency``` wont draw any vector. In thi
 
 This method draws the given vector.
 
-```
+```python
 graphing_calculator.draw_vector(vector, x_axis_scale=10, y_axis_scale=10)
 ```
 
 - _**vector:**_ two-dimensional vector to draw
 - _**x_axis_scale:**_ integer to scale x axis (default is 10)
 - _**y_axis_scale:**_  integer to scale y axis (default is 10)
-```
+
+```python
 vector = (1, 2)
 graphing_calculator.draw_vector(vector, x_axis_scale=10, y_axis_scale=10)
 ```
