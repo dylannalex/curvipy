@@ -22,6 +22,7 @@ def _is_float(result: Any) -> bool:
 class GraphingCalculator(turtle.Turtle):
     def __init__(
         self,
+        drawing_speed=10,
         background_color: str = "white",
         curve_color: str = "black",
         curve_width: int = 4,
@@ -33,6 +34,7 @@ class GraphingCalculator(turtle.Turtle):
         axis_width: int = 2,
     ) -> None:
         """
+        :param drawing_speed: integer value
         :param background_color: color name or hex code
         :param curve_color: color name or hex code
         :param curve_width: integer value that specifies curve width
@@ -44,10 +46,10 @@ class GraphingCalculator(turtle.Turtle):
         turtle.Turtle.__init__(self)
         self.shapesize(0.1, 0.1, 0.1)
         self.shape("square")
-        self.speed("fastest")
         turtle.bgcolor(background_color)
 
         # Screen attributes
+        self.drawing_speed = drawing_speed
         self.background_color = background_color
 
         # Curves attributes
@@ -90,7 +92,7 @@ class GraphingCalculator(turtle.Turtle):
         scaled_tail = (tail[0] * x_axis_scale, tail[1] * y_axis_scale)
         self._goto_without_drawing(scaled_tail)
         scaled_head = (head[0] * x_axis_scale, head[1] * y_axis_scale)
-        self.goto(scaled_head)
+        self._goto_drawing(scaled_head)
 
         # Draw vector head
         vector_angle = acos(vector_coordinates[0] / vector_norm)
@@ -107,7 +109,7 @@ class GraphingCalculator(turtle.Turtle):
             scaled_head[1] + left_head_vector[1],
         )
 
-        self.goto(left_head_endpoint)
+        self._goto_drawing(left_head_endpoint)
 
         right_head_vector = (
             self.vector_head_size * cos(vector_angle - pi * 5 / 4),
@@ -119,7 +121,7 @@ class GraphingCalculator(turtle.Turtle):
         )
 
         self._goto_without_drawing(scaled_head)
-        self.goto(right_head_endpoint)
+        self._goto_drawing(right_head_endpoint)
 
     def draw_curve(
         self,
@@ -191,7 +193,7 @@ class GraphingCalculator(turtle.Turtle):
             if x == domain_interval[0]:
                 self._goto_without_drawing(f_point)
             else:
-                self.goto(f_point)
+                self._goto_drawing(f_point)
 
     def _draw_parametrized_function(
         self,
@@ -211,12 +213,18 @@ class GraphingCalculator(turtle.Turtle):
             if t == domain_interval[0]:
                 self._goto_without_drawing(scaled_f_vector)
             else:
-                self.goto(scaled_f_vector)
+                self._goto_drawing(scaled_f_vector)
 
-    def _goto_without_drawing(self, position: tuple[int, int, int]) -> None:
+    def _goto_without_drawing(self, position: tuple[int, int]) -> None:
+        self.speed("fastest")
         self.up()
         self.goto(position)
         self.down()
+
+    def _goto_drawing(self, position: tuple[int, int]) -> None:
+        self.speed(self.drawing_speed)
+        self.down()
+        self.goto(position)
 
     def _draw_axis(self) -> None:
         self.width(self.axis_width)
