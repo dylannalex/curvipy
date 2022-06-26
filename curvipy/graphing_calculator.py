@@ -69,28 +69,31 @@ class GraphingCalculator(turtle.Turtle):
 
     def draw_vector(
         self,
-        vector: tuple[float, float],
+        head: tuple[float, float],
+        tail: tuple[float, float] = (0, 0),
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
         # Check if vector is the cero vector (v = <0, 0>)
-        vector_norm = sqrt(vector[0] ** 2 + vector[1] ** 2)
+        vector_norm = sqrt(head[0] ** 2 + head[1] ** 2)
         if vector_norm == 0:
             return
 
         # Graphing calculator setup
         self.color(self.vector_color)
         self.width(self.vector_width)
-        self._goto_without_drawing((0, 0))
 
         # Draw vector
-        scaled_vector = (vector[0] * x_axis_scale, vector[1] * y_axis_scale)
-        self.goto(scaled_vector)
+        scaled_tail = (tail[0] * x_axis_scale, tail[1] * y_axis_scale)
+        self._goto_without_drawing(scaled_tail)
+        scaled_head = (head[0] * x_axis_scale, head[1] * y_axis_scale)
+        self.goto(scaled_head)
 
         # Draw vector head
-        vector_angle = acos(vector[0] / vector_norm)
+        vector_coordinates = (head[0] - tail[0], head[1] - tail[1])
+        vector_angle = acos(vector_coordinates[0] / vector_norm)
 
-        if vector[1] < 0:
+        if vector_coordinates[1] < 0:
             vector_angle *= -1
 
         left_head_vector = (
@@ -98,8 +101,8 @@ class GraphingCalculator(turtle.Turtle):
             self.vector_head_size * sin(vector_angle + pi * 5 / 4),
         )
         left_head_endpoint = (
-            scaled_vector[0] + left_head_vector[0],
-            scaled_vector[1] + left_head_vector[1],
+            scaled_head[0] + left_head_vector[0],
+            scaled_head[1] + left_head_vector[1],
         )
 
         self.goto(left_head_endpoint)
@@ -109,11 +112,11 @@ class GraphingCalculator(turtle.Turtle):
             self.vector_head_size * sin(vector_angle - pi * 5 / 4),
         )
         right_head_endpoint = (
-            scaled_vector[0] + right_head_vector[0],
-            scaled_vector[1] + right_head_vector[1],
+            scaled_head[0] + right_head_vector[0],
+            scaled_head[1] + right_head_vector[1],
         )
 
-        self._goto_without_drawing(scaled_vector)
+        self._goto_without_drawing(scaled_head)
         self.goto(right_head_endpoint)
 
     def draw_curve(
