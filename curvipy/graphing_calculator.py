@@ -74,8 +74,11 @@ class GraphingCalculator(turtle.Turtle):
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
+
+        vector_coordinates = (head[0] - tail[0], head[1] - tail[1])
+
         # Check if vector is the cero vector (v = <0, 0>)
-        vector_norm = sqrt(head[0] ** 2 + head[1] ** 2)
+        vector_norm = sqrt(vector_coordinates[0] ** 2 + vector_coordinates[1] ** 2)
         if vector_norm == 0:
             return
 
@@ -90,7 +93,6 @@ class GraphingCalculator(turtle.Turtle):
         self.goto(scaled_head)
 
         # Draw vector head
-        vector_coordinates = (head[0] - tail[0], head[1] - tail[1])
         vector_angle = acos(vector_coordinates[0] / vector_norm)
 
         if vector_coordinates[1] < 0:
