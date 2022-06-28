@@ -171,7 +171,7 @@ class GraphingCalculator(turtle.Turtle):
         """
         for t in range(domain_interval[0], domain_interval[1] + 1, vector_frequency):
             f_vector = parametrized_function(t)
-            self.draw_vector(f_vector, x_axis_scale, y_axis_scale)
+            self.draw_vector(f_vector, (0, 0), x_axis_scale, y_axis_scale)
         self._draw_parametrized_function(
             parametrized_function, domain_interval, x_axis_scale, y_axis_scale
         )
