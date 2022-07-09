@@ -82,7 +82,7 @@ class GraphingCalculator(turtle.Turtle):
 
         vector_coordinates = (head[0] - tail[0], head[1] - tail[1])
 
-        # Check if vector is the cero vector (v = <0, 0>)
+        # Check if vector is the cero vector (v = [0, 0])
         vector_norm = sqrt(vector_coordinates[0] ** 2 + vector_coordinates[1] ** 2)
         if vector_norm == 0:
             return
@@ -161,8 +161,8 @@ class GraphingCalculator(turtle.Turtle):
         y_axis_scale: int = 10,
     ) -> None:
         """
-        Given a parametrized function f(t) = <x(t), y(t)>, draws a the
-        set of vectors {<x(t), y(t)> | t e domain_interval} and then
+        Given a parametrized function f(t) = [x(t), y(t)], draws a the
+        set of vectors {[x(t), y(t)] | t e domain_interval} and then
         draws f(t) graph.
 
         :param parametrized_function: curve to draw

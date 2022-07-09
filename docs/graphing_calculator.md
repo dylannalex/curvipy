@@ -7,29 +7,20 @@ from curvipy import GraphingCalculator
 
 
 graphing_calculator = GraphingCalculator(
-    background_color="white",
-    curve_color="black",
-    curve_width=3,
-    vector_color="green",
+    window_title="curvipy",
+    drawing_speed=11,
+    background_color="#F1FAEE",
+    curve_color="#457B9D",
+    curve_width=4,
+    vector_color="#E63946",
     vector_width=3,
     vector_head_size=10,
     show_axis=True,
-    axis_color="grey",
+    axis_color="#A8DADC",
     axis_width=2,
 )
 # The attribute values shown above are the default values 
 ```
-
-- _**background_color:**_ color name or hex code
-- _**curve_color:**_ color name or hex code
-- _**curve_width:**_ integer value
-- _**vector_color:**_ color name or hex code
-- _**vector_width:**_ integer value
-- _**vector_head_size:**_ integer value
-- _**show_axis:**_ boolean value
-- _**axis_color:**_ color name or hex code
-- _**axis_width:**_ integer value
-
 
 All this are public attributes. You can easily change their value as shown below:
 
@@ -49,7 +40,7 @@ graphing_calculator.vector_color = "#FF5A5F"
 
 #### :round_pushpin: graphing_calculator.draw_curve()
 
-This method draws the given curve.
+This method draws a given curve.
 
 ```python
 graphing_calculator.draw_curve(curve, domain_interval, x_axis_scale=10, y_axis_scale=10)
@@ -103,8 +94,8 @@ graphing_calculator.draw_curve(f, (-10, 10), y_axis_scale=1)
 
 #### :round_pushpin: graphing_calculator.draw_animated_curve()
 
-This method is based on the idea that the graph of a parametrized function ```f(t) = <x(t), y(t)>``` is nothing but the curve formed by joining all the vectors ```<x(t), y(t)>``` head. <br>
-```graphing_calculator.draw_animated_curve()``` illustrates that by first drawing the set of vectors ```{<x(t), y(t)> | t ∈ R}``` and then joining their head.
+This method is based on the idea that the graph of a parametrized function **f(t) = [x(t), y(t)]** is nothing but the curve formed by joining all the vectors **[x(t), y(t)]** head. <br>
+```graphing_calculator.draw_animated_curve()``` illustrates that by first drawing the set of vectors **{[x(t), y(t)] | t ∈ R}** and then joining their heads.
 
 ```python
 graphing_calculator.draw_animated_curve(
@@ -112,7 +103,7 @@ graphing_calculator.draw_animated_curve(
 )
 ```
 
-- _**parametrized_function:**_ curve's parametrized function
+- _**parametrized_function:**_ curves parametrized function
 - _**domain_interval:**_ curve function domain interval
 - _**vector_frequency:**_ the frequency which vectors will be drawn. The lower frequency the more vectors (default is 2)
 - _**x_axis_scale:**_ integer to scale x axis (default is 10)
@@ -125,19 +116,20 @@ def f(t):
 graphing_calculator.draw_animated_curve(f, (-10, 10), vector_frequency=3)
 ```
 
-```vector_frequency=3``` means that a vector will be drawn every time ```t``` changes 3 units, starting by ```t=-10``` (which is the first value of our domain interval). This means that for the values of ```t``` ```{-10, -7, -4, -1, 2, 5, 8}``` a vector will be drawn, generating the following set of vectors: ```{f(-10), f(-7), f(-4), f(-1), f(2), f(5), f(8)}```. <br>
-Setting a negative value for ```vector_frequency``` wont draw any vector. In this scenario ```graphing_calculator.draw_animated_curve()``` will produce the same result as ```graphing_calculator.draw_curve()```.
+```vector_frequency=3``` means that a vector will be drawn every time **t** changes 3 units, starting by **t=-10** (which is the first value of our domain interval). This means that for the values of **t** **{-10, -7, -4, -1, 2, 5, 8}** a vector will be drawn, generating the following set of vectors: **{f(-10), f(-7), f(-4), f(-1), f(2), f(5), f(8)}**. <br>
+Setting a negative value for ```vector_frequency``` wont draw any vector.
 
 
 #### :round_pushpin: graphing_calculator.draw_vector()
 
-This method draws the given vector.
+This method draws a two-dimensional vector
 
 ```python
-graphing_calculator.draw_vector(vector, x_axis_scale=10, y_axis_scale=10)
+graphing_calculator.draw_vector(head, tail=(0,0), x_axis_scale=10, y_axis_scale=10)
 ```
 
-- _**vector:**_ two-dimensional vector to draw
+- _**head:**_ vector ending point
+- _**tail:**_ vector starting point (default is the origin (0, 0))
 - _**x_axis_scale:**_ integer to scale x axis (default is 10)
 - _**y_axis_scale:**_  integer to scale y axis (default is 10)
 
