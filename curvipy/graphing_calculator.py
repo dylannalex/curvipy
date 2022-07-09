@@ -22,18 +22,20 @@ def _is_float(result: Any) -> bool:
 class GraphingCalculator(turtle.Turtle):
     def __init__(
         self,
-        drawing_speed=10,
-        background_color: str = "white",
-        curve_color: str = "black",
+        window_title: str = "curvipy",
+        drawing_speed: int = 11,
+        background_color: str = "#F1FAEE",
+        curve_color: str = "#457B9D",
         curve_width: int = 4,
-        vector_color: str = "green",
+        vector_color: str = "#E63946",
         vector_width: int = 3,
         vector_head_size: int = 10,
         show_axis: bool = True,
-        axis_color: str = "grey",
+        axis_color: str = "#A8DADC",
         axis_width: int = 2,
     ) -> None:
         """
+        :param window_title: title to display on window
         :param drawing_speed: integer value
         :param background_color: color name or hex code
         :param curve_color: color name or hex code
@@ -46,6 +48,7 @@ class GraphingCalculator(turtle.Turtle):
         turtle.Turtle.__init__(self)
         self.shapesize(0.1, 0.1, 0.1)
         self.shape("square")
+        turtle.title(window_title)
         turtle.bgcolor(background_color)
 
         # Screen attributes
