@@ -4,9 +4,9 @@ from distutils.core import setup
 setup(
     name="curvipy",
     packages=["curvipy"],
-    version="0.1.0",
+    version="0.1.1",
     license="MIT",
-    description="The Python package for visualizing curves and linear transformations in a super simple way.",
+    description="The Python package for visualizing mathematical functions, curves and linear transformations with animations.",
     author="Dylan Tintenfich",
     author_email="tintenfichdylan05@gmail.com",
     url="https://github.com/dylannalex/curvipy",
