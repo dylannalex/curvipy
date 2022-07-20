@@ -243,11 +243,11 @@ class GraphingCalculator(turtle.Turtle):
         self._goto_without_drawing((-w * 2, 0))
         self.goto((w * 2, 0))
 
-    def clear(self) -> None:
+    def clean(self) -> None:
         """
-        Clears the graphic calculator screen.
+        Cleans the graphic calculator screen.
         """
-        turtle.clearscreen()
+        self.clear()
         turtle.bgcolor(self.background_color)
         if self.show_axis:
             self._draw_axis()
