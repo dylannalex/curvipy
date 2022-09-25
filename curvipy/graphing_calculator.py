@@ -183,8 +183,8 @@ class GraphingCalculator(turtle.Turtle):
         self,
         f: Callable,
         domain_interval: tuple[int, int],
-        x_axis_scale: int = 10,
-        y_axis_scale: int = 10,
+        x_axis_scale: int,
+        y_axis_scale: int,
     ) -> None:
         self.color(self.curve_color)
         self.width(self.curve_width)
@@ -202,8 +202,8 @@ class GraphingCalculator(turtle.Turtle):
         self,
         parametrized_function: Callable,
         domain_interval: tuple[int, int],
-        x_axis_scale: int = 10,
-        y_axis_scale: int = 10,
+        x_axis_scale: int,
+        y_axis_scale: int,
     ) -> None:
         self.color(self.curve_color)
         self.width(self.curve_width)
