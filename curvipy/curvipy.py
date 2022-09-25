@@ -19,7 +19,7 @@ def _is_float(result: Any) -> bool:
         return False
 
 
-class GraphingCalculator(turtle.Turtle):
+class Curvipy(turtle.Turtle):
     def __init__(
         self,
         window_title: str = "curvipy",

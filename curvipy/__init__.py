@@ -1,2 +1,2 @@
-from curvipy.graphing_calculator import GraphingCalculator
+from curvipy.curvipy import Curvipy
 from curvipy import lintrans
