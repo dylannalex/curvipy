@@ -1,18 +1,18 @@
-[![Downloads](https://pepy.tech/badge/curvipy)](https://pepy.tech/project/curvipy)
-![licence](https://img.shields.io/github/license/dylannalex/curvipy?color=blue)
-
 # What is Curvipy?
 
 Curvipy is a Python library for making math animations in a few lines of code.
 
-Curvipy is inspired on manim, an animation engine for making math videos. Despite manim being an exceptionally tool, it is quite hard to learn and use, specially for simple animations. Curvipy solves this issue by providing a less powerful but much easier to use package, with which you can plot two-dimensional curves and vectors.
+Curvipy is inspired on [manim](https://github.com/3b1b/manim), an animation engine for making math videos. Despite manim being an exceptionally tool, it is quite hard to learn and use, specially for simple animations. Curvipy solves this issue by providing a less powerful but much easier to use package, with which you can plot two-dimensional curves and vectors.
 
 # Installation
 
 You can start using Curvipy by installing it via pip.
 
-```
+```{code-block}
 $ pip install curvipy
+```
+
+```{note} Curvipy requires turtle package. If you don't have it, it will be automatically installed.
 ```
 
 # Usage Example
@@ -23,7 +23,7 @@ Curvipy is a great tool for learning and teaching math with animations. In this 
 
 A function has been translated when it has been moved in a way that does not change its shape or rotate it in any way. A function can be translated either *vertically*, *horizontally*, or both.
 
-To visualize translations, we will use the function $f(x) = x^{2}$, where $x \in [-15, 15]$.
+To visualize translations, we will use the function {math}`f(x) = x^{2}`, where {math}`x \in [-15, 15]`.
 
 ```python
 import curvipy
@@ -41,9 +41,7 @@ plotter.plot_curve(curvipy.Function(f), interval)
 turtle.exitonclick()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/function_x_squared.png">
-</p>
+![image](img/function_x_squared.png){#imgattr width="500px" align=center}
 
 ### Horizontal Translation
 
@@ -78,9 +76,7 @@ plotter.plot_curve(curvipy.Function(m), interval)
 turtle.exitonclick()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/horizontal_translation.png">
-</p>
+![image](img/horizontal_translation.png){width="500px" align=center}
 
 ### Vertical Translation
 
@@ -115,35 +111,27 @@ plotter.plot_curve(curvipy.Function(m), interval)
 turtle.exitonclick()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/vertical_translation.png">
-</p>
+![image](img/vertical_translation.png){width="500px" align=center}
 
 ## Linear transformations
 
-A linear transformation is a mapping $V \rightarrow W$ between two vector spaces that preserves the operations of vector addition and scalar multiplication.
+A linear transformation is a mapping {math}`V \rightarrow W` between two vector spaces that preserves the operations of vector addition and scalar multiplication.
 
 Curvipy is great for visualizing how a linear transformation transform the two-dimensional space.
 
 ### Transformation matrix
 
-In linear algebra, linear transformations can be represented by matrices. If $T$ is a linear transformation mapping $R^n$ to $R^m$ and $\vec{x}$ is a column vector then
+In linear algebra, linear transformations can be represented by matrices. If {math}`T` is a linear transformation mapping {math}`R^n` to {math}`R^m` and {math}`\vec{x}` is a column vector then
 
-$T(\vec{x}) = A\vec{x}$
+{math}`T(\vec{x}) = A\vec{x}`
 
-where $A$ is an $m x n$ matrix called the *transformation matrix* of $T$.
+where {math}`A` is an {math}`m x n` matrix called the *transformation matrix* of {math}`T`.
 
 With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
 
-$$
-A =
-\begin{bmatrix}
-0 & -1\\
-1 & 0
-\end{bmatrix}
-$$
+{math}`A = \begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}`
 
-transforms the function $f(x) = sin(x)$.
+transforms the function {math}`f(x) = sin(x)`.
 
 ```python
 import math
@@ -166,39 +154,24 @@ plotter.plot_curve(curvipy.TransformedCurve(A, curve), interval)
 turtle.exitonclick()  # Exits plotter on click
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/transformation_matrix.png">
-</p>
+![image](img/transformation_matrix.png){width="500px" align=center}
 
-As you can see above, the matrix $A$ rotates the function $f(x)$ 90° anticlockwise.
+As you can see above, the matrix {math}`A` rotates the function {math}`f(x)` 90° anticlockwise.
 
-**Note:**  `curvipy.TransformedCurve`
+```{note} 
+`curvipy.TransformedCurve`
 matrix parameter has the same format as numpy arrays. In fact, you can directly use a numpy array. 
+```
 
 ### Matrix multiplication commutative property
 
-For matrix multiplication, the commutative property of multiplication does not hold. This means that, given two matrices $A$ and $B$, generally $AB {\neq} BA$.
+For matrix multiplication, the commutative property of multiplication does not hold. This means that, given two matrices {math}`A` and {math}`B`, generally {math}`AB {\neq} BA`.
 
 To prove this, let's define the matrices
 
-$$
-A =
-\begin{bmatrix}
-0 & -1\\
-1 & 0
-\end{bmatrix}
-$$
+{math}`A = \begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}` and {math}`B = \begin{pmatrix}1 & 1\\0 & 1\end{pmatrix}`
 
-$$
-B = 
-\begin{bmatrix}
-1 & 1\\
-0 & 1
-\end{bmatrix}
-$$
-
-
-and see how they transform the curve $f(x) = x^{3}$.
+and see how they transform the curve {math}`f(x) = x^{3}`.
 
 ```python
 import curvipy
@@ -234,13 +207,13 @@ plotter.plot_curve(BA_transformed_curve, interval)
 turtle.exitonclick()  # Exits plotter on click
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/mat_multiplication_commutative_property.png">
-</p>
+![image](img/mat_multiplication_commutative_property.png){width="500px" align=center}
 
-As you can see above, transforming $f(x)$ with the matrix $AB$ gives a different result as transforming $f(x)$ with the matrix $BA$.
+As you can see above, transforming {math}`f(x)` with the matrix {math}`AB` gives a different result as transforming {math}`f(x)` with the matrix {math}`BA`.
 
-**Tip:** you can also use numpy arrays to define `AB_transformed_curve` and `BA_transformed_curve` curves, as shown below.
+```{tip}
+You can also use numpy arrays to define `AB_transformed_curve` and `BA_transformed_curve` curves, as shown below.
+```
 
 ```python
 import numpy as np
@@ -257,4 +230,4 @@ AB_transformed_curve = curvipy.TransformedCurve(AB, curve)
 BA_transformed_curve = curvipy.TransformedCurve(BA, curve)
 ```
 
-You can learn more about Curvipy by visiting the Documentation Page.
+You can learn more about Curvipy by going through the [Documentation](documentation.md) section or by directly visiting Curvipy on [Github](https://github.com/dylannalex/curvipy) in order to check out the source code itself.
