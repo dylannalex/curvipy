@@ -3,9 +3,9 @@ from math import sin as _sin
 from math import cos as _cos
 from math import pi as _pi
 
-from .vector import Vector as _Vector
-from .curve import Curve as _Curve
-from .interval import Interval as _Interval
+from ._vector import Vector as _Vector
+from ._curve import Curve as _Curve
+from ._interval import Interval as _Interval
 
 
 class Plotter(_turtle.Turtle):
