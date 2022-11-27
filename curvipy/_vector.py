@@ -19,7 +19,10 @@ class Vector:
     ):
         self.head = head
         self.tail = tail
-        self.components = (head[0] - tail[0], head[1] - tail[1])
+
+    @property
+    def components(self) -> tuple[int | float, int | float]:
+        return (self.head[0] - self.tail[0], self.head[1] - self.tail[1])
 
     @property
     def norm(self) -> float:
