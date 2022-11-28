@@ -23,11 +23,10 @@ Curvipy is a great tool for learning and teaching math with animations. In this 
 
 A function has been translated when it has been moved in a way that does not change its shape or rotate it in any way. A function can be translated either *vertically*, *horizontally*, or both.
 
-To visualize translations, we will use the function {math}`f(x) = x^{2}`, where {math}`x \in [-15, 15]`.
+To visualize translations, we will use the function {math}`f(x) = x^{2}`.
 
 ```python
 import curvipy
-import turtle
 
 
 def f(x):
@@ -38,10 +37,10 @@ plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20)
 interval = curvipy.Interval(start=-15, end=15, samples=45)
 plotter.plot_curve(curvipy.Function(f), interval)
 
-turtle.exitonclick()
+plotter.wait()
 ```
 
-![image](img/function_x_squared.png){#imgattr width="500px" align=center}
+![image](img/function_x_squared.png){width="500px" align=center}
 
 ### Horizontal Translation
 
@@ -49,7 +48,6 @@ In a horizontal translation, the function is moved along the x-axis.
 
 ```python
 import curvipy
-import turtle
 
 
 def f(x):
@@ -66,17 +64,18 @@ def m(x):
     return f(x + 3)
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20)
-interval = curvipy.Interval(start=-15, end=15, samples=45)
+plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
 plotter.curve_color = "#FF7B61"  # Red
+interval = curvipy.Interval(start=-2, end=7.5, samples=45)
 plotter.plot_curve(curvipy.Function(g), interval)
 plotter.curve_color = "#F061FF"  # Purple
+interval = curvipy.Interval(start=-7.5, end=2, samples=45)
 plotter.plot_curve(curvipy.Function(m), interval)
 
-turtle.exitonclick()
+plotter.wait()
 ```
 
-![image](img/horizontal_translation.png){width="500px" align=center}
+![image](img/horizontal_translation.gif){width="500px" align=center}
 
 ### Vertical Translation
 
@@ -84,7 +83,6 @@ In a horizontal translation, the function is moved along the y-axis.
 
 ```python
 import curvipy
-import turtle
 
 
 def f(x):
@@ -101,17 +99,17 @@ def m(x):
     return f(x) + 3
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20)
-interval = curvipy.Interval(start=-15, end=15, samples=45)
+plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
+interval = curvipy.Interval(start=-5, end=5, samples=45)
 plotter.curve_color = "#FF7B61"  # Red
 plotter.plot_curve(curvipy.Function(g), interval)
 plotter.curve_color = "#F061FF"  # Purple
 plotter.plot_curve(curvipy.Function(m), interval)
 
-turtle.exitonclick()
+plotter.wait()
 ```
 
-![image](img/vertical_translation.png){width="500px" align=center}
+![image](img/vertical_translation.gif){width="500px" align=center}
 
 ## Linear transformations
 
@@ -129,34 +127,39 @@ where {math}`A` is an {math}`m x n` matrix called the *transformation matrix* of
 
 With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
 
-{math}`A = \begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}`
+{math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}`
 
-transforms the function {math}`f(x) = sin(x)`.
+transforms the function {math}`f(x) =\frac{x}{2}sin(x)`.
 
 ```python
 import math
 import curvipy
-import turtle
 
 
-curve = curvipy.Function(math.sin)
-interval = curvipy.Interval(-10, 10, 50)
-A = ((0, -1), (1, 0))
+def f(x):
+    return x / 2 * math.sin(x)
+
+
 plotter = curvipy.Plotter(x_axis_scale=25, y_axis_scale=25)
+interval = curvipy.Interval(-15, 15, 250)
 
-# Plot curve:
+# Plot curve f(x) = x/2 * sin(x):
 plotter.curve_color = "#FF7B61"  # Red
+curve = curvipy.Function(f)
 plotter.plot_curve(curve, interval)
+
 # Plot transformed curve:
 plotter.curve_color = "#457B9D"  # Blue
-plotter.plot_curve(curvipy.TransformedCurve(A, curve), interval)
+A = ((0, -1), (1, 0))
+transformed_curve = curvipy.TransformedCurve(A, curve)
+plotter.plot_curve(transformed_curve, interval)
 
-turtle.exitonclick()  # Exits plotter on click
+plotter.wait()
 ```
 
-![image](img/transformation_matrix.png){width="500px" align=center}
+![image](img/transformation_matrix.gif){width="500px" align=center}
 
-As you can see above, the matrix {math}`A` rotates the function {math}`f(x)` 90° anticlockwise.
+As you can see above, the matrix {math}`A` rotates the function {math}`f(x)` ninety degree anticlockwise.
 
 ```{note} 
 `curvipy.TransformedCurve`
@@ -169,26 +172,30 @@ For matrix multiplication, the commutative property of multiplication does not h
 
 To prove this, let's define the matrices
 
-{math}`A = \begin{pmatrix}0 & -1\\1 & 0\end{pmatrix}` and {math}`B = \begin{pmatrix}1 & 1\\0 & 1\end{pmatrix}`
+{math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}` and {math}`B = \begin{bmatrix}1 & 1\\0 & 1\end{bmatrix}`
 
 and see how they transform the curve {math}`f(x) = x^{3}`.
 
 ```python
 import curvipy
-import turtle
 
 
 def f(x):
     return x**3
 
 
-curve = curvipy.Function(f)
-interval = curvipy.Interval(-10, 10, 70)
-plotter = curvipy.Plotter(x_axis_scale=25, y_axis_scale=25, curve_width=6)
+plotter = curvipy.Plotter(
+    x_axis_scale=25,
+    y_axis_scale=25,
+    curve_width=6,
+    plotting_speed=3,
+)
+interval = curvipy.Interval(-2.7, 2.7, 70)
 
+# Define curves
 A = ((0, -1), (1, 0))
 B = ((1, 1), (0, 1))
-
+curve = curvipy.Function(f)
 AB_transformed_curve = curvipy.TransformedCurve(A, curvipy.TransformedCurve(B, curve))
 BA_transformed_curve = curvipy.TransformedCurve(B, curvipy.TransformedCurve(A, curve))
 
@@ -204,10 +211,10 @@ plotter.plot_curve(AB_transformed_curve, interval)
 plotter.curve_color = "#457B9D"  # Blue
 plotter.plot_curve(BA_transformed_curve, interval)
 
-turtle.exitonclick()  # Exits plotter on click
+plotter.wait()
 ```
 
-![image](img/mat_multiplication_commutative_property.png){width="500px" align=center}
+![image](img/mat_multiplication_commutative_property.gif){width="500px" align=center}
 
 As you can see above, transforming {math}`f(x)` with the matrix {math}`AB` gives a different result as transforming {math}`f(x)` with the matrix {math}`BA`.
 

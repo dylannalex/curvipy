@@ -22,6 +22,7 @@ class Vector:
 
     @property
     def components(self) -> tuple[int | float, int | float]:
+        """Vector head point when tail is moved to the origin."""
         return (self.head[0] - self.tail[0], self.head[1] - self.tail[1])
 
     @property
