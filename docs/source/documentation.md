@@ -1,3 +1,10 @@
+# Class Diagram
+
+![image](img/class_diagram.png){align=center}
+
+In this class diagram you can visualize the structure of Curvipy. See the sections below to get
+a better understanding on how to use each class.
+
 # Graph Plotter
 
 Curvipy provides the `Plotter` class.

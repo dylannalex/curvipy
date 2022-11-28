@@ -2,7 +2,7 @@ import typing as _typing
 from abc import ABC as _ABC
 from abc import abstractmethod as _abstractmethod
 
-from .interval import Interval as _Interval
+from ._interval import Interval as _Interval
 
 
 _number = int | float

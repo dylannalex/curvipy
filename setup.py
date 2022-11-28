@@ -4,7 +4,7 @@ from distutils.core import setup
 setup(
     name="curvipy",
     packages=["curvipy"],
-    version="1.0.0",
+    version="1.0.1",
     license="MIT",
     description="The Python library for making math animations in a few lines of code.",
     author="Dylan Tintenfich",

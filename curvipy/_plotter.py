@@ -1,14 +1,14 @@
-import turtle as _turtle
 from math import sin as _sin
 from math import cos as _cos
 from math import pi as _pi
 
-from .vector import Vector as _Vector
-from .curve import Curve as _Curve
-from .interval import Interval as _Interval
+from ._vector import Vector as _Vector
+from ._curve import Curve as _Curve
+from ._interval import Interval as _Interval
+from ._screen import ScreenFacade as _ScreenFacade
 
 
-class Plotter(_turtle.Turtle):
+class Plotter:
     """Graph plotter for drawing vectors and curves. Inherits from `turtle.Turtle` \
     class.
         
@@ -17,7 +17,7 @@ class Plotter(_turtle.Turtle):
     window_title : str
         Title to display on window. Defaults to "curvipy".
     plotting_speed : int
-        Curve plotting speed. Defaults to 11.
+        Curve plotting speed. Integer from 1 to 10. Defaults to 10.
     background_color : str
         Background color. Can either be a name (e.g. "Blue") or a hex color code. \
         Defaults to "#F1FAEE".
@@ -62,16 +62,10 @@ class Plotter(_turtle.Turtle):
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
     ) -> None:
-
-        _turtle.Turtle.__init__(self)
-        self.shapesize(0.1, 0.1, 0.1)
-        self.shape("square")
-        _turtle.title(window_title)
-        _turtle.bgcolor(background_color)
+        self.__screen = _ScreenFacade(window_title, background_color)
 
         # Screen attributes
         self.plotting_speed = plotting_speed
-        self.background_color = background_color
 
         # Curves attributes
         self.curve_color = curve_color
@@ -92,30 +86,26 @@ class Plotter(_turtle.Turtle):
         if self.show_axis:
             self._draw_axis()
 
-    def _goto_without_drawing(self, position: tuple[int, int]) -> None:
-        self.speed("fastest")
-        self.up()
-        self.goto(position)
-        self.down()
-
-    def _goto_drawing(self, position: tuple[int, int]) -> None:
-        self.speed(self.plotting_speed)
-        self.down()
-        self.goto(position)
-
     def _draw_axis(self) -> None:
-        self.width(self.axis_width)
-        self.color(self.axis_color)
-
-        w, h = _turtle.screensize()
+        w, h = self.__screen.get_screen_size()
 
         # y axis
-        self._goto_without_drawing((0, -h * 2))
-        self.goto(0, h * 2)
+        self.__screen.draw_line(
+            (0, -h * 2),
+            (0, h * 2),
+            self.axis_width,
+            self.axis_color,
+            self.__screen.MAX_DRAWING_SPEED,
+        )
 
         # x axis
-        self._goto_without_drawing((-w * 2, 0))
-        self.goto((w * 2, 0))
+        self.__screen.draw_line(
+            (-w * 2, 0),
+            (w * 2, 0),
+            self.axis_width,
+            self.axis_color,
+            self.__screen.MAX_DRAWING_SPEED,
+        )
 
     def plot_vector(self, vector: _Vector) -> None:
         """Plots the given two-dimensional vector.
@@ -129,21 +119,22 @@ class Plotter(_turtle.Turtle):
         if not vector.norm:
             return
 
-        # Turtle settings
-        self.color(self.vector_color)
-        self.width(self.vector_width)
-
         # Draw vector
         scaled_tail = (
             vector.tail[0] * self.x_axis_scale,
             vector.tail[1] * self.y_axis_scale,
         )
-        self._goto_without_drawing(scaled_tail)
         scaled_head = (
             vector.head[0] * self.x_axis_scale,
             vector.head[1] * self.y_axis_scale,
         )
-        self._goto_drawing(scaled_head)
+        self.__screen.draw_line(
+            scaled_tail,
+            scaled_head,
+            self.vector_width,
+            self.vector_color,
+            self.plotting_speed,
+        )
 
         # Draw vector head
         left_head_vector = (
@@ -154,8 +145,13 @@ class Plotter(_turtle.Turtle):
             scaled_head[0] + left_head_vector[0],
             scaled_head[1] + left_head_vector[1],
         )
-
-        self._goto_drawing(left_head_endpoint)
+        self.__screen.draw_line(
+            scaled_head,
+            left_head_endpoint,
+            self.vector_width,
+            self.vector_color,
+            self.plotting_speed,
+        )
 
         right_head_vector = (
             self.vector_head_size * _cos(vector.angle - _pi * 5 / 4),
@@ -166,8 +162,13 @@ class Plotter(_turtle.Turtle):
             scaled_head[1] + right_head_vector[1],
         )
 
-        self._goto_without_drawing(scaled_head)
-        self._goto_drawing(right_head_endpoint)
+        self.__screen.draw_line(
+            scaled_head,
+            right_head_endpoint,
+            self.vector_width,
+            self.vector_color,
+            self.plotting_speed,
+        )
 
     def plot_curve(self, curve: _Curve, interval: _Interval) -> None:
         """Plots the given two-dimensional curve in the specified interval.
@@ -179,26 +180,21 @@ class Plotter(_turtle.Turtle):
         interval : Interval
             Interval from which the curve will be plotted.
         """
-        # Turtle settings
-        self.color(self.curve_color)
-        self.width(self.curve_width)
-
         # Curve points
-        points = curve.points(interval)
-        start_point = points[0]
-        scaled_start_point = (
-            self.x_axis_scale * start_point[0],
-            self.y_axis_scale * start_point[1],
-        )
-
-        # Draw curve
-        self._goto_without_drawing(scaled_start_point)
-        for point in points[1:]:
-            scaled_point = (
+        scaled_points = [
+            (
                 self.x_axis_scale * point[0],
                 self.y_axis_scale * point[1],
             )
-            self._goto_drawing(scaled_point)
+            for point in curve.points(interval)
+        ]
+        # Draw curve
+        self.__screen.draw_polyline(
+            scaled_points,
+            self.curve_width,
+            self.curve_color,
+            self.plotting_speed,
+        )
 
     def plot_animated_curve(
         self, curve: _Curve, interval: _Interval, samples_per_vector: int
@@ -228,7 +224,10 @@ class Plotter(_turtle.Turtle):
 
     def clean(self) -> None:
         """Removes curves and vectors plotted."""
-        self.clear()
-        _turtle.bgcolor(self.background_color)
+        self.__screen.clean()
         if self.show_axis:
             self._draw_axis()
+
+    def wait(self) -> None:
+        """Waits until plotter screen is clicked. When clicked, exits plotter."""
+        self.__screen.exit_on_click()
