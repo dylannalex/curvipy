@@ -12,7 +12,8 @@ You can start using Curvipy by installing it via pip.
 $ pip install curvipy
 ```
 
-```{note} Curvipy requires turtle package. If you don't have it, it will be automatically installed.
+```{note} 
+Curvipy requires turtle package. If you don't have it, it will be automatically installed.
 ```
 
 # Usage Example
