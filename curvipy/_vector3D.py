@@ -25,6 +25,7 @@ class Vector3D:
     
     @property
     def norm(self) -> float:
+        """Norm of the vector."""
         return _math.sqrt(self.components[0] ** 2 + self.components[1] ** 2 + self.components[2] ** 2)
     
     @property
@@ -39,9 +40,13 @@ class Vector3D:
 
         return (alpha, beta, gamma)
 
+    @property
+    def xyprojection(self) -> tuple[int | float, int | float]:
+        """Projection of the Vector on XY plane"""
+        return (self.components[0], self.components[1])
+
     def __getitem__(self, i: int) -> int | float:
         return self.components[i]
     
     def __len__(self) -> int:
         return len(self.components)
-    
