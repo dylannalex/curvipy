@@ -102,5 +102,7 @@ Vectors can be defined with the `Vector` class.
 
 ```{eval-rst}
 .. autoclass:: curvipy.Vector
+    :member-order: bysource
     :members:
+    :special-members: __getitem__,__mul__,__add__,__sub__
 ```

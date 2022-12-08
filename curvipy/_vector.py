@@ -69,6 +69,20 @@ class Vector:
         self.tail = coordinates
 
     def __getitem__(self, i: int) -> int | float:
+        """Returns the component at index `i`.
+
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=[-1, -1], head=[2, 3])
+            v.components
+            >>> (3, 4)
+            v[0]
+            >>> 3
+            v[1]
+            >>> 4
+        """
         return self.components[i]
 
     def __len__(self) -> int:
@@ -78,50 +92,52 @@ class Vector:
         """Defines vector scaling. The scaled vector is not placed at the \
         origin, that is, the scaled vector will preserve the vector tail.
 
-        Example:
-        ```
-        v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-        w = v * 2
-        n = v * -1
-        w.tail
-        >>> (-1, -1)
-        w.head
-        >>> (5, 5)
-        w.components
-        >>> (6, 6)
-        n.tail
-        >>> (-1, -1)
-        n.head
-        >>> (-4, -4)
-        n.components
-        >>> (-3, -3)
-        ```
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            w = v * 2
+            n = v * -1
+            w.tail
+            >>> (-1, -1)
+            w.head
+            >>> (5, 5)
+            w.components
+            >>> (6, 6)
+            n.tail
+            >>> (-1, -1)
+            n.head
+            >>> (-4, -4)
+            n.components
+            >>> (-3, -3)
         """
-        scaled_vector_components = [
+        scaled_vector_components = (
             self.components[0] * scalar,
             self.components[1] * scalar,
-        ]
-        scaled_vector_head = [
+        )
+        scaled_vector_head = (
             self.tail[0] + scaled_vector_components[0],
             self.tail[1] + scaled_vector_components[1],
-        ]
+        )
         return Vector(head=scaled_vector_head, tail=self.tail)
 
     def __add__(self, vector: "Vector") -> "Vector":
         """Defines vector addition. Result vector is placed at the origin, \
         that is, the tail of the result vector is (0, 0).
 
-        Example:
-        ```
-        v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-        w = curvipy.Vector(tail=[2, 0], head=[1, -2])
-        n = v + w
-        n.tail
-        >>> (0, 0)
-        n.head
-        >>> (2, 1)
-        ```
-        """
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            w = curvipy.Vector(tail=[2, 0], head=[1, -2])
+            n = v + w
+            n.tail
+            >>> (0, 0)
+            n.head
+            >>> (2, 1)
+            """
         head = (
             self.components[0] + vector.components[0],
             self.components[1] + vector.components[1],
@@ -132,15 +148,16 @@ class Vector:
         """Defines vector subtraction. Result vector is placed at the origin, \
         that is, the tail of the result vector is (0, 0).
 
-        Example:
-        ```
-        v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-        w = curvipy.Vector(tail=[2, 0], head=[1, -2])
-        n = v - w
-        n.tail
-        >>> (0, 0)
-        n.head
-        >>> (4, 5)
-        ```
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            w = curvipy.Vector(tail=[2, 0], head=[1, -2])
+            n = v - w
+            n.tail
+            >>> (0, 0)
+            n.head
+            >>> (4, 5)
         """
         return self + vector * -1
