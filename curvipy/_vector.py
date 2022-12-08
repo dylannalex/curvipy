@@ -42,6 +42,32 @@ class Vector:
         angle = _math.acos(self.components[0] / self.norm)
         return angle if self.components[1] >= 0 else -angle
 
+    def place(self, coordinates: tuple[int | float, int | float]) -> None:
+        """Moves the vector to the given coordinates, that is, the vector tail \
+        is placed on the specified point.
+
+        Parameters
+        ----------
+        coordinates : tuple[int or float, int or float]
+            Two-dimensional point to which the vector is moved.
+
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=(-1, -1), head=(2, 2))
+            v.place((-2, 2))
+            v.tail
+            >>> (-2, 2)
+            v.head
+            >>> (1, 5)
+        """
+        self.head = (
+            coordinates[0] + self.components[0],
+            coordinates[1] + self.components[1],
+        )
+        self.tail = coordinates
+
     def __getitem__(self, i: int) -> int | float:
         return self.components[i]
 
