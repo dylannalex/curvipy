@@ -113,23 +113,35 @@ plotter.wait()
 
 ## Linear transformations
 
-A linear transformation is a mapping {math}`V \rightarrow W` between two vector spaces that preserves the operations of vector addition and scalar multiplication.
+A linear transformation {math}`f` is a mapping between two vector spaces
+
+```{math}
+f:\mathcal{V}\rightarrow\mathcal{W}
+```
+
+that preserves the operations of vector addition and scalar multiplication. If, {math}`v_1,v_2\in\mathcal{V}` and {math}`a_1` and {math}`a_2` are scalars, then:
+
+```{math}
+f(a_1v_1+a_2v_2)=a_1f(v_1)+a_2f(v_2)
+```
 
 Curvipy is great for visualizing how a linear transformation transform the two-dimensional space.
 
 ### Transformation matrix
 
-In linear algebra, linear transformations can be represented by matrices. If {math}`T` is a linear transformation mapping {math}`R^n` to {math}`R^m` and {math}`\vec{x}` is a column vector then
+In linear algebra, linear transformations can be represented by matrices. If {math}`T` is a linear transformation mapping {math}`\mathbb{R}^n` to {math}`\mathbb{R}^m` and {math}`\vec{x}` is a column vector then
 
-{math}`T(\vec{x}) = A\vec{x}`
+```{math}
+T(\vec{x})=A\vec{x}
+```
 
-where {math}`A` is an {math}`m x n` matrix called the *transformation matrix* of {math}`T`.
+where {math}`A` is an {math}`m \times n` matrix called the *transformation matrix* of {math}`T`.
 
 With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
 
 {math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}`
 
-transforms the function {math}`f(x) =\frac{x}{2}sin(x)`.
+transforms the function {math}`f(x) =\frac{x}{2}\sin(x)`.
 
 ```python
 import math
@@ -172,7 +184,9 @@ For matrix multiplication, the commutative property of multiplication does not h
 
 To prove this, let's define the matrices
 
-{math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}` and {math}`B = \begin{bmatrix}1 & 1\\0 & 1\end{bmatrix}`
+```{math}
+A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix} \text{and } B =\begin{bmatrix}1 & 1\\0 & 1\end{bmatrix}
+```
 
 and see how they transform the curve {math}`f(x) = x^{3}`.
 

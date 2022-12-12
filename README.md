@@ -120,17 +120,18 @@ plotter.wait()
 
 ## Linear transformations
 
-A linear transformation is a mapping $V \rightarrow W$ between two vector spaces that preserves the operations of vector addition and scalar multiplication.
+A linear transformation $f$ is a mapping between two vector spaces $$f:\mathcal{V}\rightarrow\mathcal{W}$$ that preserves the operations of vector addition and scalar multiplication.
+If, $v_1,v_2\in\mathcal{V}$ and, $a_1$ and $a_2$ are scalars, then: $$f(a_1v_1+a_2v_2)=a_1f(v_1)+a_2f(v_2)$$
 
 Curvipy is great for visualizing how a linear transformation transform the two-dimensional space.
 
 ### Transformation matrix
 
-In linear algebra, linear transformations can be represented by matrices. If $T$ is a linear transformation mapping $R^n$ to $R^m$ and $\vec{x}$ is a column vector then
+In linear algebra, linear transformations can be represented by matrices. If $T$ is a linear transformation mapping $\mathbb{R}^n$ to $\mathbb{R}^m$ and $\vec{x}$ is a column vector then
 
-$T(\vec{x}) = A\vec{x}$
+$$T(\vec{x}) = A\vec{x}$$
 
-where $A$ is an $m x n$ matrix called the *transformation matrix* of $T$.
+where $A$ is an $m \times n$ matrix called the *transformation matrix* of $T$.
 
 With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
 
@@ -142,7 +143,7 @@ A =
 \end{bmatrix}
 $$
 
-transforms the function $f(x) =\frac{x}{2}sin(x)$.
+transforms the function $f(x) =\frac{x}{2}\sin(x)$.
 
 ```python
 import math
@@ -190,11 +191,7 @@ A =
 \begin{bmatrix}
 0 & -1\\
 1 & 0
-\end{bmatrix}
-$$
-
-$$
-B = 
+\end{bmatrix} \text{and } B = 
 \begin{bmatrix}
 1 & 1\\
 0 & 1
