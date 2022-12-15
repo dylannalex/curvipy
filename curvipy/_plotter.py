@@ -1,7 +1,3 @@
-from math import sin as _sin
-from math import cos as _cos
-from math import pi as _pi
-
 from ._vector import Vector as _Vector
 from ._curve import Curve as _Curve
 from ._interval import Interval as _Interval
@@ -137,37 +133,14 @@ class Plotter:
         )
 
         # Draw vector head
-        left_head_vector = (
-            self.vector_head_size * _cos(vector.angle + _pi * 5 / 4),
-            self.vector_head_size * _sin(vector.angle + _pi * 5 / 4),
-        )
-        left_head_endpoint = (
-            scaled_head[0] + left_head_vector[0],
-            scaled_head[1] + left_head_vector[1],
-        )
-        self.__screen.draw_line(
-            scaled_head,
-            left_head_endpoint,
-            self.vector_width,
-            self.vector_color,
-            self.plotting_speed,
-        )
-
-        right_head_vector = (
-            self.vector_head_size * _cos(vector.angle - _pi * 5 / 4),
-            self.vector_head_size * _sin(vector.angle - _pi * 5 / 4),
-        )
-        right_head_endpoint = (
-            scaled_head[0] + right_head_vector[0],
-            scaled_head[1] + right_head_vector[1],
-        )
-
-        self.__screen.draw_line(
-            scaled_head,
-            right_head_endpoint,
-            self.vector_width,
-            self.vector_color,
-            self.plotting_speed,
+        scaled_vector = _Vector(scaled_head, scaled_tail)
+        self.__screen.draw_arrow(
+            point=scaled_head,
+            arrow_angle=scaled_vector.angle,
+            arrow_size=self.vector_head_size,
+            arrow_width=self.vector_width,
+            arrow_color=self.vector_color,
+            drawing_speed=self.__screen.MAX_DRAWING_SPEED,
         )
 
     def plot_curve(self, curve: _Curve, interval: _Interval) -> None:

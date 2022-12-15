@@ -115,6 +115,66 @@ class ScreenFacade:
         for point in points[1:]:
             self.__pen.goto(point)
 
+    def draw_arrow(
+        self,
+        point: tuple[int | float, int | float],
+        arrow_size: int,
+        arrow_angle: int | float,
+        arrow_width: int,
+        arrow_color: str,
+        drawing_speed: int,
+    ):
+        """Draws an arrow `>` at the given point.
+
+        Parameters
+        ----------
+        point : tuple[int or float, int or float]
+            Point where the arrow will be drawn.
+        arrow_size : int
+            Size of the arrow.
+        arrow_angle : str
+            Angle in radians. Indicates arrow direction.
+        arrow_width : int
+            Width of the arrow.
+        arrow_color : str
+            Color of the arrow.
+        drawing_speed : int
+            Drawing speed. Integer from 1 to 10.
+        """
+        # Draw vector head
+        left_arrow = (
+            arrow_size * _cos(arrow_angle + _pi * 5 / 4),
+            arrow_size * _sin(arrow_angle + _pi * 5 / 4),
+        )
+        left_arrow_endpoint = (
+            point[0] + left_arrow[0],
+            point[1] + left_arrow[1],
+        )
+        self.draw_line(
+            point,
+            left_arrow_endpoint,
+            arrow_width,
+            arrow_color,
+            drawing_speed,
+        )
+
+        right_arrow = (
+            arrow_size * _cos(arrow_angle - _pi * 5 / 4),
+            arrow_size * _sin(arrow_angle - _pi * 5 / 4),
+        )
+        right_arrow_endpoint = (
+            point[0] + right_arrow[0],
+            point[1] + right_arrow[1],
+        )
+
+        self.draw_line(
+            point,
+            right_arrow_endpoint,
+            arrow_width,
+            arrow_color,
+            drawing_speed,
+        )
+
     def clean(self) -> None:
         """Removes all drawings from screen."""
         self.__screen.clear()
