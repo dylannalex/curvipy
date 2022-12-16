@@ -27,6 +27,7 @@ class ScreenFacade:
     def __init__(self, window_title: str, background_color: str):
         # Screen setup
         self.__screen = _turtle.Screen()
+        self.__screen.screensize(canvwidth=200, canvheight=200)
         self.__screen.clear()
         self.__screen.title(window_title)
         self.__screen.bgcolor(background_color)
@@ -183,6 +184,25 @@ class ScreenFacade:
             arrow_color,
             drawing_speed,
         )
+
+    def draw_text(
+        self,
+        text: str,
+        point: _TPoint,
+        text_font: tuple[str, str, str],
+        text_color: str,
+        align: str,
+    ):
+        # Pen setup
+        if text_color != self.__pen_color_cache:
+            self.__pen.color(text_color)
+            self.__pen_color_cache = text_color
+
+        # Draw text
+        self.__pen.speed(__class__.MAX_DRAWING_SPEED)
+        self.__pen.up()
+        self.__pen.goto(point)
+        self.__pen.write(text, move=False, align=align, font=text_font)
 
     def clean(self) -> None:
         """Removes all drawings from screen."""

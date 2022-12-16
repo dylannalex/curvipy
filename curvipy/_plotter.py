@@ -1,7 +1,14 @@
+from math import ceil as _ceil
+from math import pi as _pi
+
+from typing import Union as _Union
+
 from ._vector import Vector as _Vector
 from ._curve import Curve as _Curve
 from ._interval import Interval as _Interval
 from ._screen import ScreenFacade as _ScreenFacade
+
+_TNumber = _Union[int, float]
 
 
 class Plotter:
@@ -37,9 +44,28 @@ class Plotter:
     axis_width : int
         Axis width. Defaults to 2.
     x_axis_scale : int
-        X-axis scale. Defaults to 10.
+        Positive integer. Defaults to 10.
     y_axis_scale : int
-        Y-axis scale. Defaults to 10.
+        Positive integer. Defaults to 10.
+    x_axis_ticks : int
+        Positive integer. Defaults to 10.
+    y_axis_ticks : int
+        Positive integer. Defaults to 10.
+    x_axis_tick_decimals : int
+        Positive integer. Defaults to 2.
+    y_axis_tick_decimals : int
+        Positive integer. Defaults to 2. 
+    tick_number_font : tuple[str, str, str]
+        A triple (fontname, fontsize, fonttype). Defaults to ("Verdana", 8, "normal"). 
+    tick_number_color : str
+        Ticks text color. Can either be a name (e.g. "Black") or a hex color code. Defaults \
+        to "#000000".
+    x_axis_tick_number_align : str
+        Can either be "top" or "down". Defines if the x-axis ticks number will be placed \
+        upside or downside the y-axis. Defaults to "down".
+    y_axis_tick_number_align : str
+        Can either be "left" or "right". Defines if the y-axis ticks number will be placed \
+        to the left or to the right of the x-axis. Defaults to "left".
     """
 
     def __init__(
@@ -57,10 +83,17 @@ class Plotter:
         axis_width: int = 2,
         x_axis_scale: int = 10,
         y_axis_scale: int = 10,
+        x_axis_ticks: int = 10,
+        y_axis_ticks: int = 10,
+        x_axis_tick_decimals: int = 2,
+        y_axis_tick_decimals: int = 2,
+        tick_number_font: tuple[str, str, str] = ("Verdana", 8, "normal"),
+        tick_number_color: str = "#000000",
+        x_axis_tick_number_align: str = "down",
+        y_axis_tick_number_align: str = "left",
     ) -> None:
-        self.__screen = _ScreenFacade(window_title, background_color)
-
         # Screen attributes
+        self.__screen = _ScreenFacade(window_title, background_color)
         self.plotting_speed = plotting_speed
 
         # Curves attributes
@@ -78,29 +111,152 @@ class Plotter:
         self.axis_width = axis_width
         self.x_axis_scale = x_axis_scale
         self.y_axis_scale = y_axis_scale
+        self.x_axis_ticks = x_axis_ticks
+        self.y_axis_ticks = y_axis_ticks
+        self.x_axis_tick_decimals = x_axis_tick_decimals
+        self.y_axis_tick_decimals = y_axis_tick_decimals
+        self.tick_number_font = tick_number_font
+        self.tick_number_color = tick_number_color
+        self.x_axis_tick_number_align = x_axis_tick_number_align
+        self.y_axis_tick_number_align = y_axis_tick_number_align
 
         if self.show_axis:
             self._draw_axis()
 
     def _draw_axis(self) -> None:
-        w, h = self.__screen.get_screen_size()
+        screen_size = self.__screen.get_screen_size()
+        w, h = (screen_size[0] * 1.5, screen_size[1] * 1.5)
 
         # y axis
         self.__screen.draw_line(
-            (0, -h * 2),
-            (0, h * 2),
+            (0, -h),
+            (0, h),
             self.axis_width,
             self.axis_color,
             self.__screen.MAX_DRAWING_SPEED,
         )
 
+        dy = None if not self.y_axis_ticks else _ceil(h / self.y_axis_ticks)
+        for i in range(self.y_axis_ticks * 2):
+            y = dy * (i - self.y_axis_ticks)
+            if y == 0:
+                continue
+            self.draw_y_tick(y / self.y_axis_scale)
+
+        self.__screen.draw_arrow(
+            point=(0, h),
+            arrow_angle=0.5 * _pi,
+            arrow_size=10,
+            arrow_width=self.axis_width,
+            arrow_color=self.axis_color,
+            drawing_speed=self.__screen.MAX_DRAWING_SPEED,
+        )
+
         # x axis
         self.__screen.draw_line(
-            (-w * 2, 0),
-            (w * 2, 0),
+            (-w, 0),
+            (w, 0),
             self.axis_width,
             self.axis_color,
             self.__screen.MAX_DRAWING_SPEED,
+        )
+
+        dx = None if not self.x_axis_ticks else _ceil(w / self.x_axis_ticks)
+        for i in range(self.x_axis_ticks * 2):
+            x = dx * (i - self.x_axis_ticks)
+            if x == 0:
+                continue
+            self.draw_x_tick(x / self.x_axis_scale)
+
+        self.__screen.draw_arrow(
+            point=(w, 0),
+            arrow_angle=0,
+            arrow_size=10,
+            arrow_width=self.axis_width,
+            arrow_color=self.axis_color,
+            drawing_speed=self.__screen.MAX_DRAWING_SPEED,
+        )
+
+    def draw_x_tick(self, number: _TNumber, align: str = None) -> None:
+        """Draws a tick on the x-axis.
+
+        Parameters
+        ----------
+        number : int or float
+            Tick number.
+        align : str
+            Can either be "top" or "down". Defines if the x-axis tick number will be placed \
+            upside or downside the y-axis. If `None`, align takes \
+            `Plotter.x_axis_tick_number_align` attribute value. Defaults to `None`.
+        """
+        font_size = self.tick_number_font[1]
+        number_str = str(round(number, self.x_axis_tick_decimals))
+
+        # Offsets
+        align = self.x_axis_tick_number_align if not align else align
+        if align == "down":
+            y_offset = -20
+        if align == "up":
+            y_offset = 10
+
+        x_offset = -font_size * len(number_str) // 2
+
+        # Draw x tick
+        x = number * self.x_axis_scale
+        self.__screen.draw_line(
+            (x, -5),
+            (x, 5),
+            self.axis_width,
+            self.axis_color,
+            self.__screen.MAX_DRAWING_SPEED,
+        )
+        self.__screen.draw_text(
+            text=number_str,
+            point=(x + x_offset, 0 + y_offset),
+            text_font=self.tick_number_font,
+            text_color=self.tick_number_color,
+            align="left",
+        )
+
+    def draw_y_tick(self, number: _TNumber, align: str = None) -> None:
+        """Draws a tick on the y-axis.
+
+        Parameters
+        ----------
+        number : int or float
+            Tick number.
+        align : str
+            Can either be "left" or "right". Defines if the y-axis ticks number will be placed \
+            to the left or to the right of the x-axis. If `None`, align takes \
+            `Plotter.y_axis_tick_number_align` attribute value. Defaults to `None`.
+        """
+        font_size = self.tick_number_font[1]
+        number_str = str(round(number, self.y_axis_tick_decimals))
+
+        # Offsets
+        align = self.y_axis_tick_number_align if not align else align
+        if align == "left":
+            x_offset = -10 - font_size * len(number_str) * 0.8
+        if align == "right":
+            x_offset = 10
+
+        y_offset = -font_size // 2
+
+        # Draw y tick
+        y = number * self.y_axis_scale
+        self.__screen.draw_line(
+            (-5, y),
+            (5, y),
+            self.axis_width,
+            self.axis_color,
+            self.__screen.MAX_DRAWING_SPEED,
+        )
+        self.__screen.draw_text(
+            text=number_str,
+            point=(0 + x_offset, y + y_offset),
+            text_font=self.tick_number_font,
+            text_color=self.tick_number_color,
+            align="left",
         )
 
     def plot_vector(self, vector: _Vector) -> None:
