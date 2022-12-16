@@ -1,19 +1,20 @@
-import typing as _typing
 from abc import ABC as _ABC
 from abc import abstractmethod as _abstractmethod
 
+from typing import Callable as _Callable
+from typing import Union as _Union
+
 from ._interval import Interval as _Interval
 
-
-_number = int | float
-_vector = tuple[_number, _number]
+_TNumber = _Union[int, float]
+_TVector = tuple[_TNumber, _TNumber]
 
 
 class Curve(_ABC):
     """Base class for all two-dimensional curves."""
 
     @_abstractmethod
-    def points(self, interval: _Interval) -> list[_number]:
+    def points(self, interval: _Interval) -> list[_TNumber]:
         """Returns the curve point for each value in the given interval.
 
         Parameters
@@ -38,10 +39,10 @@ class Function(Curve):
         Function that given an integer or float returns another integer or float.
     """
 
-    def __init__(self, function: _typing.Callable[[_number], _number]):
+    def __init__(self, function: _Callable[[_TNumber], _TNumber]):
         self.function = function
 
-    def points(self, interval: _Interval) -> list[_number]:
+    def points(self, interval: _Interval) -> list[_TNumber]:
         """Returns the function point for each value in the given interval.
 
         Parameters
@@ -67,10 +68,10 @@ class ParametricFunction(Curve):
                 integers or floats.
     """
 
-    def __init__(self, parametric_function: _typing.Callable[[_number], _vector]):
+    def __init__(self, parametric_function: _Callable[[_TNumber], _TVector]):
         self.parametric_function = parametric_function
 
-    def points(self, interval: _Interval) -> list[_number]:
+    def points(self, interval: _Interval) -> list[_TNumber]:
         """Returns the parametric function point for each value in the given interval.
 
         Parameters
@@ -104,15 +105,15 @@ class TransformedCurve(Curve):
     def __init__(
         self,
         matrix: tuple[
-            tuple[_number, _number],
-            tuple[_number, _number],
+            tuple[_TNumber, _TNumber],
+            tuple[_TNumber, _TNumber],
         ],
         curve: Curve,
     ):
         self.__curve = curve
         self.__matrix = matrix
 
-    def points(self, interval: _Interval) -> list[_number]:
+    def points(self, interval: _Interval) -> list[_TNumber]:
         """Returns the curve point for each value in the given interval.
 
         Parameters

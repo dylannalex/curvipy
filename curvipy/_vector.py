@@ -1,5 +1,11 @@
 import math as _math
 
+from typing import Union as _Union
+
+_TNumber = _Union[int, float]
+_TPoint = tuple[_TNumber, _TNumber]
+_TVector = tuple[_TNumber, _TNumber]
+
 
 class Vector:
     """Two-dimensional vector `v = (v1, v2)`.
@@ -14,14 +20,14 @@ class Vector:
 
     def __init__(
         self,
-        head: tuple[int | float, int | float],
-        tail: tuple[int | float, int | float] = (0, 0),
+        head: _TPoint,
+        tail: _TPoint = (0, 0),
     ):
         self.head = head
         self.tail = tail
 
     @property
-    def components(self) -> tuple[int | float, int | float]:
+    def components(self) -> _TVector:
         """Vector head point when tail is moved to the origin."""
         return (self.head[0] - self.tail[0], self.head[1] - self.tail[1])
 
@@ -42,13 +48,13 @@ class Vector:
         angle = _math.acos(self.components[0] / self.norm)
         return angle if self.components[1] >= 0 else -angle
 
-    def place(self, coordinates: tuple[int | float, int | float]) -> None:
-        """Moves the vector to the given coordinates, that is, the vector tail \
-        is placed on the specified point.
+    def place(self, point: _TPoint) -> None:
+        """Moves the vector to the given point, that is, the vector tail \
+        is placed on the specified coordinates.
 
         Parameters
         ----------
-        coordinates : tuple[int or float, int or float]
+        point : tuple[int or float, int or float]
             Two-dimensional point to which the vector is moved.
 
         Example
@@ -63,12 +69,12 @@ class Vector:
             >>> (1, 5)
         """
         self.head = (
-            coordinates[0] + self.components[0],
-            coordinates[1] + self.components[1],
+            point[0] + self.components[0],
+            point[1] + self.components[1],
         )
-        self.tail = coordinates
+        self.tail = point
 
-    def __getitem__(self, i: int) -> int | float:
+    def __getitem__(self, i: int) -> _TNumber:
         """Returns the component at index `i`.
 
         Example
@@ -88,7 +94,7 @@ class Vector:
     def __len__(self) -> int:
         return len(self.components)
 
-    def __mul__(self, scalar: int | float) -> "Vector":
+    def __mul__(self, scalar: _TNumber) -> "Vector":
         """Defines vector scaling. The scaled vector is not placed at the \
         origin, that is, the scaled vector will preserve the vector tail.
 

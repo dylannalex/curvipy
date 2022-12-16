@@ -1,5 +1,14 @@
 import turtle as _turtle
 
+from math import sin as _sin
+from math import cos as _cos
+from math import pi as _pi
+
+from typing import Union as _Union
+
+_TNumber = _Union[int, float]
+_TPoint = tuple[_TNumber, _TNumber]
+
 
 class ScreenFacade:
     """Draw figures such as lines and polylines.
@@ -37,8 +46,8 @@ class ScreenFacade:
 
     def draw_line(
         self,
-        start_point: tuple[int or float, int or float],
-        end_point: tuple[int or float, int or float],
+        start_point: _TPoint,
+        end_point: _TPoint,
         line_width: int,
         line_color: str,
         drawing_speed: int,
@@ -47,9 +56,9 @@ class ScreenFacade:
 
         Parameters
         ----------
-        start_point : int
+        start_point : tuple[int or float, int or float]
             Position at which the line starts.
-        end_point : int
+        end_point : tuple[int or float, int or float]
             Position at which the line ends.
         line_width : int
             Line width.
@@ -78,7 +87,7 @@ class ScreenFacade:
 
     def draw_polyline(
         self,
-        points: list[tuple[int, int]],
+        points: list[_TPoint],
         polyline_width: int,
         polyline_color: str,
         drawing_speed: int,
@@ -87,7 +96,7 @@ class ScreenFacade:
 
         Parameters
         ----------
-        points : list[tuple[int, int]]
+        points : list[tuple[int or float, int or float]]
             Polyline points positions.
         polyline_width : int
             Polyline width.
@@ -117,9 +126,9 @@ class ScreenFacade:
 
     def draw_arrow(
         self,
-        point: tuple[int | float, int | float],
+        point: _TPoint,
         arrow_size: int,
-        arrow_angle: int | float,
+        arrow_angle: _TNumber,
         arrow_width: int,
         arrow_color: str,
         drawing_speed: int,
