@@ -36,6 +36,14 @@ class Plotter:
         Vector width. Defaults to 3.
     vector_head_size : int
         Size of vectors' head. Defaults to 10.
+    show_vector_values : bool
+        When True, vector head and tail values are shown on the axes. Defaults to True.
+    vector_values_line_color : str
+        Color of the dashed line drawn from the vector head and tail to the axes when \
+        `show_vector_values` is set to True. Defaults to "#64C2C6".
+    vector_values_line_width : int
+        Width of the dashed line drawn from the vector head and tail to the axes. when \
+        `show_vector_values` is set to True. Defaults to 3.
     show_axis : bool
         If true, x-axis and y-axis are shown. Defaults to True.
     axis_color : str
@@ -78,6 +86,9 @@ class Plotter:
         vector_color: str = "#E63946",
         vector_width: int = 3,
         vector_head_size: int = 10,
+        show_vector_values: bool = True,
+        vector_values_line_color: str = "#64C2C6",
+        vector_values_line_width: int = 3,
         show_axis: bool = True,
         axis_color: str = "#A8DADC",
         axis_width: int = 2,
@@ -104,6 +115,9 @@ class Plotter:
         self.vector_color = vector_color
         self.vector_width = vector_width
         self.vector_head_size = vector_head_size
+        self.show_vector_values = show_vector_values
+        self.vector_values_line_color = vector_values_line_color
+        self.vector_values_line_width = vector_values_line_width
 
         # Axis attributes
         self.axis_color = axis_color
@@ -271,7 +285,7 @@ class Plotter:
         if not vector.norm:
             return
 
-        # Draw vector
+        # Compute scaled vector
         scaled_tail = (
             vector.tail[0] * self.x_axis_scale,
             vector.tail[1] * self.y_axis_scale,
@@ -280,6 +294,9 @@ class Plotter:
             vector.head[0] * self.x_axis_scale,
             vector.head[1] * self.y_axis_scale,
         )
+        scaled_vector = _Vector(scaled_head, scaled_tail)
+
+        # Draw vector
         self.__screen.draw_line(
             scaled_tail,
             scaled_head,
@@ -289,7 +306,6 @@ class Plotter:
         )
 
         # Draw vector head
-        scaled_vector = _Vector(scaled_head, scaled_tail)
         self.__screen.draw_arrow(
             point=scaled_head,
             arrow_angle=scaled_vector.angle,
@@ -298,6 +314,75 @@ class Plotter:
             arrow_color=self.vector_color,
             drawing_speed=self.__screen.MAX_DRAWING_SPEED,
         )
+
+        # Show vector values
+        if not self.show_vector_values:
+            return
+        dash_size = 2
+
+        # Show vector tail values
+        if scaled_tail[0] != 0:
+            offset = 15 if scaled_tail[0] > 0 else -15
+            total_dashes = abs(scaled_tail[0] // 20)
+            self.__screen.draw_dashed_line(
+                (0, scaled_tail[1]),
+                (scaled_tail[0] - offset, scaled_tail[1]),
+                total_dashes,
+                dash_size,
+                self.vector_values_line_width,
+                self.vector_values_line_color,
+                self.plotting_speed,
+            )  # Horizontal dashed line
+
+            offset = 15 if scaled_tail[1] > 0 else -15
+            total_dashes = abs(scaled_tail[1] // 20)
+            self.__screen.draw_dashed_line(
+                (scaled_tail[0], scaled_tail[1] - offset),
+                (scaled_tail[0], 0),
+                total_dashes,
+                dash_size,
+                self.vector_values_line_width,
+                self.vector_values_line_color,
+                self.plotting_speed,
+            )  # Vertical dashed line
+
+        if scaled_tail[0] != 0:
+            align = "up" if vector.tail[0] < 0 else "down"
+            self.draw_x_tick(vector.tail[0], align)
+        align = "left" if vector.tail[0] > 0 else "right"
+        self.draw_y_tick(vector.tail[1], align)
+
+        if scaled_head[0] != 0:
+            # Show vector head values
+            offset = 15 if scaled_head[0] > 0 else -15
+            total_dashes = abs(scaled_head[0] // 20)
+            self.__screen.draw_dashed_line(
+                (0, scaled_head[1]),
+                (scaled_head[0] - offset, scaled_head[1]),
+                total_dashes,
+                dash_size,
+                self.vector_values_line_width,
+                self.vector_values_line_color,
+                self.plotting_speed,
+            )  # Horizontal dashed line
+
+            offset = 15 if scaled_head[1] > 0 else -15
+            total_dashes = abs(scaled_head[1] // 20)
+            self.__screen.draw_dashed_line(
+                (scaled_head[0], scaled_head[1] - offset),
+                (scaled_head[0], 0),
+                total_dashes,
+                dash_size,
+                self.vector_values_line_width,
+                self.vector_values_line_color,
+                self.plotting_speed,
+            )  # Vertical dashed line
+
+        if scaled_head[0] != 0:
+            align = "up" if vector.head[0] < 0 else "down"
+            self.draw_x_tick(vector.head[0], align)
+        align = "left" if vector.head[0] > 0 else "right"
+        self.draw_y_tick(vector.head[1], align)
 
     def plot_curve(self, curve: _Curve, interval: _Interval) -> None:
         """Plots the given two-dimensional curve in the specified interval.
