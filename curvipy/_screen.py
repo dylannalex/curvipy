@@ -28,6 +28,7 @@ class ScreenFacade:
         # Screen setup
         self.__screen = _turtle.Screen()
         self.__screen.screensize(canvwidth=200, canvheight=200)
+        self.__screen.setup(700, 700)
         self.__screen.clear()
         self.__screen.title(window_title)
         self.__screen.bgcolor(background_color)
