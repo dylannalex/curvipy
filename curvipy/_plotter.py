@@ -80,10 +80,10 @@ class AxesConfiguration:
         to "#70CBCE".
     axes_width : int
         Axis width. Defaults to 2.
-    x_axis_scale : int
-        Positive integer. Defaults to 10.
-    y_axis_scale : int
-        Positive integer. Defaults to 10.
+    x_axis_scale : int or float
+        Real value to define x-axis scale. Defaults to 1.
+    y_axis_scale : int or float
+        Real value to define y-axis scale. Defaults to 1.
     x_axis_ticks : int
         Positive integer. Defaults to 10.
     y_axis_ticks : int
@@ -105,13 +105,15 @@ class AxesConfiguration:
         to the left or to the right of the x-axis. Defaults to "left".
     """
 
+    __AXES_SCALE_FACTOR = 30
+
     def __init__(
         self,
         show_axes: bool = True,
         axes_color: str = "#70CBCE",
         axes_width: int = 2,
-        x_axis_scale: int = 10,
-        y_axis_scale: int = 10,
+        x_axis_scale: _TNumber = 1,
+        y_axis_scale: _TNumber = 1,
         x_axis_ticks: int = 10,
         y_axis_ticks: int = 10,
         x_axis_tick_decimals: int = 2,
@@ -124,8 +126,8 @@ class AxesConfiguration:
         self.show_axes = show_axes
         self.axes_color = axes_color
         self.axes_width = axes_width
-        self.x_axis_scale = x_axis_scale
-        self.y_axis_scale = y_axis_scale
+        self.x_axis_scale = x_axis_scale * __class__.__AXES_SCALE_FACTOR
+        self.y_axis_scale = y_axis_scale * __class__.__AXES_SCALE_FACTOR
         self.x_axis_ticks = x_axis_ticks
         self.y_axis_ticks = y_axis_ticks
         self.x_axis_tick_decimals = x_axis_tick_decimals
@@ -176,59 +178,78 @@ class Plotter:
     def _draw_axis(self) -> None:
         screen_size = self.__screen.get_screen_size()
         w, h = (screen_size[0] * 1.5, screen_size[1] * 1.5)
+        axis_extension = 20  # for drawing the axis arrow
 
-        # y axis
+        # Y-AXIS
+        ## Draw y-axis line
         self.__screen.draw_line(
-            (0, -h),
-            (0, h),
+            (0, -h - axis_extension),
+            (0, h + axis_extension),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
         )
 
+        ## Draw y-axis ticks
         dy = (
             None
             if not self.axes_config.y_axis_ticks
             else _ceil(h / self.axes_config.y_axis_ticks)
         )
-        for i in range(self.axes_config.y_axis_ticks * 2):
+        for i in range(self.axes_config.y_axis_ticks * 2 + 1):
             y = dy * (i - self.axes_config.y_axis_ticks)
             if y == 0:
                 continue
             self.draw_y_tick(y / self.axes_config.y_axis_scale)
 
+        ## Draw y-axis line arrow
+        axis_arrow_pos = (
+            (0, h + axis_extension)
+            if self.axes_config.y_axis_scale > 0
+            else (0, -h - axis_extension)
+        )
+        axis_arrow_ang = 0.5 * _pi if self.axes_config.y_axis_scale > 0 else -0.5 * _pi
         self.__screen.draw_arrow(
-            point=(0, h),
-            arrow_angle=0.5 * _pi,
+            point=axis_arrow_pos,
+            arrow_angle=axis_arrow_ang,
             arrow_size=10,
             arrow_width=self.axes_config.axes_width,
             arrow_color=self.axes_config.axes_color,
             drawing_speed=self.__screen.MAX_DRAWING_SPEED,
         )
 
-        # x axis
+        # X-AXIS
+        ## Draw x-axis line
         self.__screen.draw_line(
-            (-w, 0),
-            (w, 0),
+            (-w - axis_extension, 0),
+            (w + axis_extension, 0),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
         )
 
+        ## Draw x-axis ticks
         dx = (
             None
             if not self.axes_config.x_axis_ticks
             else _ceil(w / self.axes_config.x_axis_ticks)
         )
-        for i in range(self.axes_config.x_axis_ticks * 2):
+        for i in range(self.axes_config.x_axis_ticks * 2 + 1):
             x = dx * (i - self.axes_config.x_axis_ticks)
             if x == 0:
                 continue
             self.draw_x_tick(x / self.axes_config.x_axis_scale)
 
+        ## Draw x-axis line arrow
+        axis_arrow_pos = (
+            (w + axis_extension, 0)
+            if self.axes_config.x_axis_scale > 0
+            else (-w - axis_extension, 0)
+        )
+        axis_arrow_ang = 0 if self.axes_config.x_axis_scale > 0 else _pi
         self.__screen.draw_arrow(
-            point=(w, 0),
-            arrow_angle=0,
+            point=axis_arrow_pos,
+            arrow_angle=axis_arrow_ang,
             arrow_size=10,
             arrow_width=self.axes_config.axes_width,
             arrow_color=self.axes_config.axes_color,
@@ -367,7 +388,7 @@ class Plotter:
         # Show vector tail values
         if scaled_tail[0] != 0:
             offset = 15 if scaled_tail[0] > 0 else -15
-            total_dashes = abs(scaled_tail[0] // 20)
+            total_dashes = int(abs(scaled_tail[0] // 20))
             self.__screen.draw_dashed_line(
                 (0, scaled_tail[1]),
                 (scaled_tail[0] - offset, scaled_tail[1]),
@@ -379,7 +400,7 @@ class Plotter:
             )  # Horizontal dashed line
 
             offset = 15 if scaled_tail[1] > 0 else -15
-            total_dashes = abs(scaled_tail[1] // 20)
+            total_dashes = int(abs(scaled_tail[1] // 20))
             self.__screen.draw_dashed_line(
                 (scaled_tail[0], scaled_tail[1] - offset),
                 (scaled_tail[0], 0),
@@ -399,7 +420,7 @@ class Plotter:
         if scaled_head[0] != 0:
             # Show vector head values
             offset = 15 if scaled_head[0] > 0 else -15
-            total_dashes = abs(scaled_head[0] // 20)
+            total_dashes = int(abs(scaled_head[0] // 20))
             self.__screen.draw_dashed_line(
                 (0, scaled_head[1]),
                 (scaled_head[0] - offset, scaled_head[1]),
@@ -411,7 +432,7 @@ class Plotter:
             )  # Horizontal dashed line
 
             offset = 15 if scaled_head[1] > 0 else -15
-            total_dashes = abs(scaled_head[1] // 20)
+            total_dashes = int(abs(scaled_head[1] // 20))
             self.__screen.draw_dashed_line(
                 (scaled_head[0], scaled_head[1] - offset),
                 (scaled_head[0], 0),
