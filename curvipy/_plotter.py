@@ -192,7 +192,7 @@ class Plotter:
 
         ## Draw y-axis ticks
         dy = (
-            None
+            0
             if not self.axes_config.y_axis_ticks
             else _ceil(h / self.axes_config.y_axis_ticks)
         )
@@ -230,7 +230,7 @@ class Plotter:
 
         ## Draw x-axis ticks
         dx = (
-            None
+            0
             if not self.axes_config.x_axis_ticks
             else _ceil(w / self.axes_config.x_axis_ticks)
         )
