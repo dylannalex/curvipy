@@ -104,5 +104,5 @@ Vectors can be defined with the `Vector` class.
 .. autoclass:: curvipy.Vector
     :member-order: bysource
     :members:
-    :special-members: __getitem__,__mul__,__add__,__sub__
+    :special-members: __getitem__,__mul__,__add__,__sub__,__eq__
 ```
