@@ -167,3 +167,18 @@ class Vector:
             >>> (4, 5)
         """
         return self + vector * -1
+
+    def __eq__(self, vector: "Vector") -> bool:
+        """Defines equality between two vectors. It compares the components \
+        of two vectors.
+
+        Example
+        -------
+        .. code-block:: python
+
+            v = curvipy.Vector(tail=[1, 1], head=[3, 3])
+            w = curvipy.Vector(tail=[0, 0], head=[2, 2])
+            v == w
+            >>> True
+        """
+        return self.components == vector.components
