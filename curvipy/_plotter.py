@@ -5,7 +5,6 @@ from typing import Union as _Union
 
 from ._vector import Vector as _Vector
 from ._curve import Curve as _Curve
-from ._interval import Interval as _Interval
 from ._screen import ScreenFacade as _ScreenFacade
 
 _TNumber = _Union[int, float]
@@ -449,15 +448,13 @@ class Plotter:
         align = "left" if vector.head[0] > 0 else "right"
         self.draw_y_tick(vector.head[1], align)
 
-    def plot_curve(self, curve: _Curve, interval: _Interval) -> None:
+    def plot_curve(self, curve: _Curve) -> None:
         """Plots the given two-dimensional curve in the specified interval.
 
         Parameters
         ----------
         curve : Curve
             Curve to be plotted.
-        interval : Interval
-            Interval from which the curve will be plotted.
         """
         # Curve points
         scaled_points = [
@@ -465,7 +462,7 @@ class Plotter:
                 self.axes_config.x_axis_scale * point[0],
                 self.axes_config.y_axis_scale * point[1],
             )
-            for point in curve.points(interval)
+            for point in curve.points()
         ]
         # Draw curve
         self.__screen.draw_polyline(
@@ -475,9 +472,7 @@ class Plotter:
             self.plotting_config.plotting_speed,
         )
 
-    def plot_animated_curve(
-        self, curve: _Curve, interval: _Interval, samples_per_vector: int
-    ) -> None:
+    def plot_animated_curve(self, curve: _Curve, samples_per_vector: int) -> None:
         """Plots the given curve by drawing a set of vectors pointing at the curve \
         points and then joining the vector heads.
 
@@ -485,21 +480,19 @@ class Plotter:
         ----------
         curve : Curve
             Curve to be plotted.
-        interval : Interval
-            Interval from which the curve will be plotted.
         samples_per_vector : int
             Number of samples per each vector plotted. The less `samples_per_vector` \
             is, the more vectors are drawn. 
         """
         # Plot vectors:
-        for i, vector in enumerate(curve.points(interval)):
+        for i, vector in enumerate(curve.points()):
             if i % samples_per_vector != 0:
                 continue
 
             self.plot_vector(_Vector(vector))
 
         # Plot curve:
-        self.plot_curve(curve, interval)
+        self.plot_curve(curve)
 
     def clean(self) -> None:
         """Removes curves and vectors plotted."""
