@@ -221,7 +221,7 @@ class ScreenFacade:
         arrow_width: int,
         arrow_color: str,
         drawing_speed: int,
-    ):
+    ) -> None:
         """Draws an arrow `>` at the given point.
 
         Parameters
@@ -280,7 +280,22 @@ class ScreenFacade:
         text_font: tuple[str, str, str],
         text_color: str,
         align: str,
-    ):
+    ) -> None:
+        """Display the given text at the specified point.
+
+        Parameters
+        ----------
+        text : str
+            Text to be displayed.
+        point : tuple[int or float, int or float]
+            Point where the text will be drawn.
+        text_font : tuple[str, str, str]
+            A triple (fontname, fontsize, fonttype).
+        text_color : str
+            Text color.
+        align : str
+            Text alignment.
+        """
         # Pen setup
         if text_color != self.__pen_color_cache:
             self.__pen.color(text_color)

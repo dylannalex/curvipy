@@ -18,13 +18,11 @@ class PlottingConfiguration:
     plotting_speed : int
         Curve plotting speed. Integer from 1 to 10. Defaults to 10.
     curve_color : str
-        Curve color. Can either be a name (e.g. "Red") or a hex color code. Defaults \
-        to "#457B9D".
+        Curve color. Can either be a name or a hex color code. Defaults to "#457B9D".
     curve_width : int
         Curve width. Defaults to 4.
     vector_color : str
-        Vector color. Can either be a name (e.g. "Yellow") or a hex color code. Defaults \
-        to "#E63946".
+        Vector color. Can either be a name or a hex color code. Defaults to "#E63946".
     vector_width : int
         Vector width. Defaults to 3.
     vector_head_size : int
@@ -41,7 +39,7 @@ class PlottingConfiguration:
 
     def __init__(
         self,
-        plotting_speed: int = 11,
+        plotting_speed: int = 10,
         curve_color: str = "#457B9D",
         curve_width: int = 4,
         vector_color: str = "#E63946",
@@ -75,8 +73,7 @@ class AxesConfiguration:
     show_axes : bool
         If true, x-axis and y-axis are shown. Defaults to True.
     axes_color : str
-        Axis color. Can either be a name (e.g. "Green") or a hex color code. Defaults \
-        to "#70CBCE".
+        Axis color. Can either be a name  or a hex color code. Defaults to "#70CBCE".
     axes_width : int
         Axis width. Defaults to 2.
     x_axis_scale : int or float
@@ -94,8 +91,7 @@ class AxesConfiguration:
     tick_number_font : tuple[str, str, str]
         A triple (fontname, fontsize, fonttype). Defaults to ("Verdana", 8, "normal"). 
     tick_number_color : str
-        Ticks text color. Can either be a name (e.g. "Black") or a hex color code. Defaults \
-        to "#000000".
+        Ticks text color. Can either be a name or a hex color code. Defaults to "#000000".
     x_axis_tick_number_align : str
         Can either be "top" or "down". Defines if the x-axis ticks number will be placed \
         upside or downside the y-axis. Defaults to "down".
@@ -145,8 +141,7 @@ class Plotter:
     window_title : str
         Title to display on window. Defaults to "Curvipy".
     background_color : str
-        Background color. Can either be a name (e.g. "Blue") or a hex color code. \
-        Defaults to "#FFFFFF".
+        Background color. Can either be a name or a hex color code. Defaults to "#FFFFFF".
     plotting_config : PlottingConfiguration
         Plotting configuration. If None, `plotting_config` takes the defaults attributes \
         values of `PlottingConfiguration`.

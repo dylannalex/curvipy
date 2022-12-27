@@ -8,7 +8,10 @@ _TVector = tuple[_TNumber, _TNumber]
 
 
 class Vector:
-    """Two-dimensional vector `v = (v1, v2)`.
+    """Two-dimensional vector
+
+        .. math::
+            \\vec{v} = (v_1, v_2)
 
     Attributes
     ----------
@@ -95,8 +98,8 @@ class Vector:
         return len(self.components)
 
     def __mul__(self, scalar: _TNumber) -> "Vector":
-        """Defines vector scaling. The scaled vector is not placed at the \
-        origin, that is, the scaled vector will preserve the vector tail.
+        """Defines vector scaling. The scaled vector preserves the \
+        vector tail.
 
         Example
         -------
@@ -104,19 +107,12 @@ class Vector:
 
             v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
             w = v * 2
-            n = v * -1
             w.tail
             >>> (-1, -1)
             w.head
             >>> (5, 5)
             w.components
             >>> (6, 6)
-            n.tail
-            >>> (-1, -1)
-            n.head
-            >>> (-4, -4)
-            n.components
-            >>> (-3, -3)
         """
         scaled_vector_components = (
             self.components[0] * scalar,
@@ -142,8 +138,7 @@ class Vector:
             n.tail
             >>> (0, 0)
             n.head
-            >>> (2, 1)
-            """
+            >>> (2, 1)"""
         head = (
             self.components[0] + vector.components[0],
             self.components[1] + vector.components[1],

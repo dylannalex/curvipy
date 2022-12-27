@@ -109,7 +109,7 @@ class TransformedCurve(Curve):
         self.__matrix = matrix
 
     def points(self) -> list[_TNumber]:
-        """Returns a list of transformed curve points.
+        """Applies a linear transformation to each point of the curve.
 
         Returns
         -------
