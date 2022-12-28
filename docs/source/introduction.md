@@ -25,6 +25,8 @@ A function has been translated when it has been moved in a way that does not cha
 
 To visualize translations, we will use the function {math}`f(x) = x^{2}`.
 
+![image](img/function_x_squared.png){width="500px" align=center}
+
 ```python
 import curvipy
 
@@ -40,11 +42,11 @@ plotter.plot_curve(curve)
 plotter.wait()
 ```
 
-![image](img/function_x_squared.png){width="500px" align=center}
-
 ### Horizontal Translation
 
 In a horizontal translation, the function is moved along the x-axis.
+
+![image](img/horizontal_translation.png){width="500px" align=center}
 
 ```python
 import curvipy
@@ -77,11 +79,11 @@ plotter.plot_curve(curvipy.Function(m, interval))
 plotter.wait()
 ```
 
-![image](img/horizontal_translation.gif){width="500px" align=center}
-
 ### Vertical Translation
 
 In a horizontal translation, the function is moved along the y-axis.
+
+![image](img/vertical_translation.png){width="500px" align=center}
 
 ```python
 import curvipy
@@ -112,8 +114,6 @@ plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
-
-![image](img/vertical_translation.gif){width="500px" align=center}
 
 ## Linear transformations
 
@@ -149,6 +149,8 @@ A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}
 
 transforms the function {math}`f(x) =\frac{x}{2}\sin(x)`.
 
+![image](img/transformation_matrix.png){width="500px" align=center}
+
 ```python
 import math
 import curvipy
@@ -175,8 +177,6 @@ plotter.plot_curve(transformed_curve)
 plotter.wait()
 ```
 
-![image](img/transformation_matrix.gif){width="500px" align=center}
-
 As you can see above, the matrix {math}`A` rotates the function {math}`f(x)` ninety degree anticlockwise.
 
 ```{note} 
@@ -195,6 +195,8 @@ A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix} \text{and } B =\begin{bmatrix}1 & 
 ```
 
 and see how they transform the curve {math}`f(x) = x^{3}`.
+
+![image](img/mat_multiplication_commutative_property.png){width="500px" align=center}
 
 ```python
 import curvipy
@@ -228,8 +230,6 @@ plotter.plot_curve(BA_transformed_curve)
 
 plotter.wait()
 ```
-
-![image](img/mat_multiplication_commutative_property.gif){width="500px" align=center}
 
 As you can see above, transforming {math}`f(x)` with the matrix {math}`AB` gives a different result as transforming {math}`f(x)` with the matrix {math}`BA`.
 

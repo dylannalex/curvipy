@@ -25,6 +25,10 @@ A function has been translated when it has been moved in a way that does not cha
 
 To visualize translations, we will use the function $f(x) = x^{2}$.
 
+<p align="center">
+  <img width="500" height="500" src="docs/source/img/function_x_squared.png">
+</p>
+
 ```python
 import curvipy
 
@@ -40,14 +44,13 @@ plotter.plot_curve(curve)
 plotter.wait()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/function_x_squared.png">
-</p>
-
-
 ### Horizontal Translation
 
 In a horizontal translation, the function is moved along the x-axis.
+
+<p align="center">
+  <img width="500" height="500" src="docs/source/img/horizontal_translation.png">
+</p>
 
 ```python
 import curvipy
@@ -80,13 +83,13 @@ plotter.plot_curve(curvipy.Function(m, interval))
 plotter.wait()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/horizontal_translation.gif">
-</p>
-
 ### Vertical Translation
 
 In a horizontal translation, the function is moved along the y-axis.
+
+<p align="center">
+  <img width="500" height="500" src="docs/source/img/vertical_translation.png">
+</p>
 
 ```python
 import curvipy
@@ -117,10 +120,6 @@ plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
-
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/vertical_translation.gif">
-</p>
 
 ## Linear transformations
 
@@ -154,6 +153,10 @@ $$
 
 transforms the function $f(x) =\frac{x}{2}\sin(x)$.
 
+<p align="center">
+  <img width="500" height="500" src="docs/source/img/transformation_matrix.png">
+</p>
+
 ```python
 import math
 import curvipy
@@ -180,10 +183,6 @@ plotter.plot_curve(transformed_curve)
 plotter.wait()
 ```
 
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/transformation_matrix.gif">
-</p>
-
 As you can see above, the matrix $A$ rotates the function $f(x)$ ninety degree anticlockwise.
 
 **Note:**  `curvipy.TransformedCurve`
@@ -208,6 +207,10 @@ A =
 $$
 
 and see how they transform the curve $f(x) = x^{3}$.
+
+<p align="center">
+  <img width="500" height="500" src="docs/source/img/mat_multiplication_commutative_property.png">
+</p>
 
 ```python
 import curvipy
@@ -241,10 +244,6 @@ plotter.plot_curve(BA_transformed_curve)
 
 plotter.wait()
 ```
-
-<p align="center">
-  <img width="500" height="500" src="docs/source/img/mat_multiplication_commutative_property.gif">
-</p>
 
 As you can see above, transforming $f(x)$ with the matrix $AB$ gives a different result as transforming $f(x)$ with the matrix $BA$.
 
