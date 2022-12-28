@@ -1,3 +1,8 @@
+from typing import Union as _Union
+
+_TNumber = _Union[int, float]
+
+
 class Interval:
     """Interval in which a curve will be plotted.
 
@@ -16,7 +21,7 @@ class Interval:
         curve plot is.
     """
 
-    def __init__(self, start: int | float, end: int | float, samples: int):
+    def __init__(self, start: _TNumber, end: _TNumber, samples: int):
         dx = (end - start) / samples
         self.__interval = [start + dx * i for i in range(samples)]
 

@@ -12,7 +12,7 @@ You can start using Curvipy by installing it via pip.
 $ pip install curvipy
 ```
 
-```{note} Curvipy requires turtle package. If you don't have it, it will be automatically installed.
+```{note} Curvipy requires [turtle](https://docs.python.org/3/library/turtle.html) package. If you don't have it, it will be automatically installed.
 ```
 
 # Usage Example
@@ -33,10 +33,10 @@ def f(x):
     return x**2
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20)
-interval = curvipy.Interval(start=-15, end=15, samples=45)
-plotter.plot_curve(curvipy.Function(f), interval)
-
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(start=-10, end=10, samples=45)
+curve = curvipy.Function(f, interval)
+plotter.plot_curve(curve)
 plotter.wait()
 ```
 
@@ -64,13 +64,15 @@ def m(x):
     return f(x + 3)
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
-plotter.curve_color = "#FF7B61"  # Red
+plotter = curvipy.Plotter()
+
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
 interval = curvipy.Interval(start=-2, end=7.5, samples=45)
-plotter.plot_curve(curvipy.Function(g), interval)
-plotter.curve_color = "#F061FF"  # Purple
+plotter.plot_curve(curvipy.Function(g, interval))
+
+plotter.plotting_config.curve_color = "#F061FF"  # Purple
 interval = curvipy.Interval(start=-7.5, end=2, samples=45)
-plotter.plot_curve(curvipy.Function(m), interval)
+plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
@@ -99,12 +101,14 @@ def m(x):
     return f(x) + 3
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
+plotter = curvipy.Plotter()
 interval = curvipy.Interval(start=-5, end=5, samples=45)
-plotter.curve_color = "#FF7B61"  # Red
-plotter.plot_curve(curvipy.Function(g), interval)
-plotter.curve_color = "#F061FF"  # Purple
-plotter.plot_curve(curvipy.Function(m), interval)
+
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+plotter.plot_curve(curvipy.Function(g, interval))
+
+plotter.plotting_config.curve_color = "#F061FF"  # Purple
+plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
@@ -113,23 +117,37 @@ plotter.wait()
 
 ## Linear transformations
 
-A linear transformation is a mapping {math}`V \rightarrow W` between two vector spaces that preserves the operations of vector addition and scalar multiplication.
+A linear transformation {math}`f` is a mapping between two vector spaces
+
+```{math}
+f:\mathcal{V}\rightarrow\mathcal{W}
+```
+
+that preserves the operations of vector addition and scalar multiplication. If, {math}`\vec{v_1},\vec{v_2}\in\mathcal{V}` and {math}`a_1` and {math}`a_2` are scalars, then:
+
+```{math}
+f(a_1\vec{v_1}+a_2\vec{v_2})=a_1f(\vec{v_1})+a_2f(\vec{v_2})
+```
 
 Curvipy is great for visualizing how a linear transformation transform the two-dimensional space.
 
 ### Transformation matrix
 
-In linear algebra, linear transformations can be represented by matrices. If {math}`T` is a linear transformation mapping {math}`R^n` to {math}`R^m` and {math}`\vec{x}` is a column vector then
+In linear algebra, linear transformations can be represented by matrices. If {math}`T` is a linear transformation mapping {math}`\mathbb{R}^n` to {math}`\mathbb{R}^m` and {math}`\vec{x}` is a column vector then
 
-{math}`T(\vec{x}) = A\vec{x}`
+```{math}
+T(\vec{x})=A\vec{x}
+```
 
-where {math}`A` is an {math}`m x n` matrix called the *transformation matrix* of {math}`T`.
+where {math}`A` is an {math}`m \times n` matrix called the *transformation matrix* of {math}`T`.
 
-With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
+With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the [TransformedCurve](curvipy.TransformedCurve) class. Let's visualize how the matrix
 
-{math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}`
+```{math}
+A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}
+```
 
-transforms the function {math}`f(x) =\frac{x}{2}sin(x)`.
+transforms the function {math}`f(x) =\frac{x}{2}\sin(x)`.
 
 ```python
 import math
@@ -140,19 +158,19 @@ def f(x):
     return x / 2 * math.sin(x)
 
 
-plotter = curvipy.Plotter(x_axis_scale=25, y_axis_scale=25)
-interval = curvipy.Interval(-15, 15, 250)
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(-10, 10, 200)
 
 # Plot curve f(x) = x/2 * sin(x):
-plotter.curve_color = "#FF7B61"  # Red
-curve = curvipy.Function(f)
-plotter.plot_curve(curve, interval)
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+curve = curvipy.Function(f, interval)
+plotter.plot_curve(curve)
 
 # Plot transformed curve:
-plotter.curve_color = "#457B9D"  # Blue
+plotter.plotting_config.curve_color = "#457B9D"  # Blue
 A = ((0, -1), (1, 0))
 transformed_curve = curvipy.TransformedCurve(A, curve)
-plotter.plot_curve(transformed_curve, interval)
+plotter.plot_curve(transformed_curve)
 
 plotter.wait()
 ```
@@ -162,7 +180,7 @@ plotter.wait()
 As you can see above, the matrix {math}`A` rotates the function {math}`f(x)` ninety degree anticlockwise.
 
 ```{note} 
-`curvipy.TransformedCurve`
+[TransformedCurve](curvipy.TransformedCurve)
 matrix parameter has the same format as numpy arrays. In fact, you can directly use a numpy array. 
 ```
 
@@ -172,7 +190,9 @@ For matrix multiplication, the commutative property of multiplication does not h
 
 To prove this, let's define the matrices
 
-{math}`A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix}` and {math}`B = \begin{bmatrix}1 & 1\\0 & 1\end{bmatrix}`
+```{math}
+A = \begin{bmatrix}0 & -1\\1 & 0\end{bmatrix} \text{and } B =\begin{bmatrix}1 & 1\\0 & 1\end{bmatrix}
+```
 
 and see how they transform the curve {math}`f(x) = x^{3}`.
 
@@ -184,32 +204,27 @@ def f(x):
     return x**3
 
 
-plotter = curvipy.Plotter(
-    x_axis_scale=25,
-    y_axis_scale=25,
-    curve_width=6,
-    plotting_speed=3,
-)
-interval = curvipy.Interval(-2.7, 2.7, 70)
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(-2.5, 2.5, 70)
 
 # Define curves
 A = ((0, -1), (1, 0))
 B = ((1, 1), (0, 1))
-curve = curvipy.Function(f)
+curve = curvipy.Function(f, interval)
 AB_transformed_curve = curvipy.TransformedCurve(A, curvipy.TransformedCurve(B, curve))
 BA_transformed_curve = curvipy.TransformedCurve(B, curvipy.TransformedCurve(A, curve))
 
-# Plot f(x) = x^3 in Orange:
-plotter.curve_color = "#FFC947"  # Yellow
-plotter.plot_curve(curve, interval)
+# Plot f(x) = x^3 in Yellow:
+plotter.plotting_config.curve_color = "#FFC947"  # Yellow
+plotter.plot_curve(curve)
 
 # Plot AB transformed curve in Red:
-plotter.curve_color = "#FF7B61"  # Red
-plotter.plot_curve(AB_transformed_curve, interval)
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+plotter.plot_curve(AB_transformed_curve)
 
 # Plot BA transformed curve in Blue:
-plotter.curve_color = "#457B9D"  # Blue
-plotter.plot_curve(BA_transformed_curve, interval)
+plotter.plotting_config.curve_color = "#457B9D"  # Blue
+plotter.plot_curve(BA_transformed_curve)
 
 plotter.wait()
 ```
@@ -218,9 +233,7 @@ plotter.wait()
 
 As you can see above, transforming {math}`f(x)` with the matrix {math}`AB` gives a different result as transforming {math}`f(x)` with the matrix {math}`BA`.
 
-```{tip}
-You can also use numpy arrays to define `AB_transformed_curve` and `BA_transformed_curve` curves, as shown below.
-```
+You can also use numpy arrays to define **AB_transformed_curve** and **BA_transformed_curve** curves:
 
 ```python
 import numpy as np

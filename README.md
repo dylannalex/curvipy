@@ -33,10 +33,10 @@ def f(x):
     return x**2
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20)
-interval = curvipy.Interval(start=-15, end=15, samples=45)
-plotter.plot_curve(curvipy.Function(f), interval)
-
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(start=-10, end=10, samples=45)
+curve = curvipy.Function(f, interval)
+plotter.plot_curve(curve)
 plotter.wait()
 ```
 
@@ -67,13 +67,15 @@ def m(x):
     return f(x + 3)
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
-plotter.curve_color = "#FF7B61"  # Red
+plotter = curvipy.Plotter()
+
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
 interval = curvipy.Interval(start=-2, end=7.5, samples=45)
-plotter.plot_curve(curvipy.Function(g), interval)
-plotter.curve_color = "#F061FF"  # Purple
+plotter.plot_curve(curvipy.Function(g, interval))
+
+plotter.plotting_config.curve_color = "#F061FF"  # Purple
 interval = curvipy.Interval(start=-7.5, end=2, samples=45)
-plotter.plot_curve(curvipy.Function(m), interval)
+plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
@@ -104,12 +106,14 @@ def m(x):
     return f(x) + 3
 
 
-plotter = curvipy.Plotter(x_axis_scale=50, y_axis_scale=20, plotting_speed=3)
+plotter = curvipy.Plotter()
 interval = curvipy.Interval(start=-5, end=5, samples=45)
-plotter.curve_color = "#FF7B61"  # Red
-plotter.plot_curve(curvipy.Function(g), interval)
-plotter.curve_color = "#F061FF"  # Purple
-plotter.plot_curve(curvipy.Function(m), interval)
+
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+plotter.plot_curve(curvipy.Function(g, interval))
+
+plotter.plotting_config.curve_color = "#F061FF"  # Purple
+plotter.plot_curve(curvipy.Function(m, interval))
 
 plotter.wait()
 ```
@@ -120,17 +124,23 @@ plotter.wait()
 
 ## Linear transformations
 
-A linear transformation is a mapping $V \rightarrow W$ between two vector spaces that preserves the operations of vector addition and scalar multiplication.
+A linear transformation $f$ is a mapping between two vector spaces
+
+$$f:\mathcal{V}\rightarrow\mathcal{W}$$
+
+that preserves the operations of vector addition and scalar multiplication. If, $\vec{v_1},\vec{v_2}\in\mathcal{V}$ and, $a_1$ and $a_2$ are scalars, then: 
+
+$$f(a_1\vec{v_1}+a_2\vec{v_2})=a_1f(\vec{v_1})+a_2f(\vec{v_2})$$
 
 Curvipy is great for visualizing how a linear transformation transform the two-dimensional space.
 
 ### Transformation matrix
 
-In linear algebra, linear transformations can be represented by matrices. If $T$ is a linear transformation mapping $R^n$ to $R^m$ and $\vec{x}$ is a column vector then
+In linear algebra, linear transformations can be represented by matrices. If $T$ is a linear transformation mapping $\mathbb{R}^n$ to $\mathbb{R}^m$ and $\vec{x}$ is a column vector then
 
-$T(\vec{x}) = A\vec{x}$
+$$T(\vec{x}) = A\vec{x}$$
 
-where $A$ is an $m x n$ matrix called the *transformation matrix* of $T$.
+where $A$ is an $m \times n$ matrix called the *transformation matrix* of $T$.
 
 With Curvipy, you can visualize how linear transformations transforms two-dimensional curves with the `curvipy.TransformedCurve` class. Let's visualize how the matrix
 
@@ -142,7 +152,7 @@ A =
 \end{bmatrix}
 $$
 
-transforms the function $f(x) =\frac{x}{2}sin(x)$.
+transforms the function $f(x) =\frac{x}{2}\sin(x)$.
 
 ```python
 import math
@@ -153,19 +163,19 @@ def f(x):
     return x / 2 * math.sin(x)
 
 
-plotter = curvipy.Plotter(x_axis_scale=25, y_axis_scale=25)
-interval = curvipy.Interval(-15, 15, 250)
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(-10, 10, 200)
 
 # Plot curve f(x) = x/2 * sin(x):
-plotter.curve_color = "#FF7B61"  # Red
-curve = curvipy.Function(f)
-plotter.plot_curve(curve, interval)
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+curve = curvipy.Function(f, interval)
+plotter.plot_curve(curve)
 
 # Plot transformed curve:
-plotter.curve_color = "#457B9D"  # Blue
+plotter.plotting_config.curve_color = "#457B9D"  # Blue
 A = ((0, -1), (1, 0))
 transformed_curve = curvipy.TransformedCurve(A, curve)
-plotter.plot_curve(transformed_curve, interval)
+plotter.plot_curve(transformed_curve)
 
 plotter.wait()
 ```
@@ -190,11 +200,7 @@ A =
 \begin{bmatrix}
 0 & -1\\
 1 & 0
-\end{bmatrix}
-$$
-
-$$
-B = 
+\end{bmatrix} \text{and } B = 
 \begin{bmatrix}
 1 & 1\\
 0 & 1
@@ -211,32 +217,27 @@ def f(x):
     return x**3
 
 
-plotter = curvipy.Plotter(
-    x_axis_scale=25,
-    y_axis_scale=25,
-    curve_width=6,
-    plotting_speed=3,
-)
-interval = curvipy.Interval(-2.7, 2.7, 70)
+plotter = curvipy.Plotter()
+interval = curvipy.Interval(-2.5, 2.5, 70)
 
 # Define curves
 A = ((0, -1), (1, 0))
 B = ((1, 1), (0, 1))
-curve = curvipy.Function(f)
+curve = curvipy.Function(f, interval)
 AB_transformed_curve = curvipy.TransformedCurve(A, curvipy.TransformedCurve(B, curve))
 BA_transformed_curve = curvipy.TransformedCurve(B, curvipy.TransformedCurve(A, curve))
 
-# Plot f(x) = x^3 in Orange:
-plotter.curve_color = "#FFC947"  # Yellow
-plotter.plot_curve(curve, interval)
+# Plot f(x) = x^3 in Yellow:
+plotter.plotting_config.curve_color = "#FFC947"  # Yellow
+plotter.plot_curve(curve)
 
 # Plot AB transformed curve in Red:
-plotter.curve_color = "#FF7B61"  # Red
-plotter.plot_curve(AB_transformed_curve, interval)
+plotter.plotting_config.curve_color = "#FF7B61"  # Red
+plotter.plot_curve(AB_transformed_curve)
 
 # Plot BA transformed curve in Blue:
-plotter.curve_color = "#457B9D"  # Blue
-plotter.plot_curve(BA_transformed_curve, interval)
+plotter.plotting_config.curve_color = "#457B9D"  # Blue
+plotter.plot_curve(BA_transformed_curve)
 
 plotter.wait()
 ```
@@ -247,7 +248,7 @@ plotter.wait()
 
 As you can see above, transforming $f(x)$ with the matrix $AB$ gives a different result as transforming $f(x)$ with the matrix $BA$.
 
-**Tip:** you can also use numpy arrays to define `AB_transformed_curve` and `BA_transformed_curve` curves, as shown below.
+You can also use numpy arrays to define **AB_transformed_curve** and **BA_transformed_curve** curves:
 
 ```python
 import numpy as np
@@ -264,4 +265,4 @@ AB_transformed_curve = curvipy.TransformedCurve(AB, curve)
 BA_transformed_curve = curvipy.TransformedCurve(BA, curve)
 ```
 
-You can learn more about Curvipy by going through the [Documentation](documentation.md) section or by directly visiting Curvipy on [Github](https://github.com/dylannalex/curvipy) in order to check out the source code itself.
+Check out [Curvipy documentation](https://curvipy.readthedocs.io/en/latest/) to learn more!

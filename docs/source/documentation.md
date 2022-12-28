@@ -1,16 +1,23 @@
-# Class Diagram
-
-![image](img/class_diagram.png){align=center}
-
-In this class diagram you can visualize the structure of Curvipy. See the sections below to get
-a better understanding on how to use each class.
-
 # Graph Plotter
 
-Curvipy provides the `Plotter` class.
+## Plotter
 
 ```{eval-rst}
 .. autoclass:: curvipy.Plotter
+    :members:
+```
+
+## Plotting Configuration
+
+```{eval-rst}
+.. autoclass:: curvipy.PlottingConfiguration
+    :members:
+```
+
+## Axes Configuration
+
+```{eval-rst}
+.. autoclass:: curvipy.AxesConfiguration
     :members:
 ```
 
@@ -18,7 +25,7 @@ Curvipy provides the `Plotter` class.
 
 With Curvipy you can plot two-dimensional curves. In this section you can find classes provided by Curvipy for defining curves.
 
-## Interval class
+## Interval
 
 ```{eval-rst}
 .. autoclass:: curvipy.Interval
@@ -37,16 +44,29 @@ invalid_interval = curvipy.Interval(start=-10, end=0, samples=20)
 # Negative numbers don't belong to √x domain.
 ```
 
-## Curve class
+## Curve
 
 ```{eval-rst}
 .. autoclass:: curvipy.Curve
     :members:
 ```
 
-You can define your own `Curve` class or use on the classes provided by Curvipy shown below.
+**Example:**
+```python
+import math
 
-## Function class
+class Sin(Curve):
+    def __init__(self, amplitude, frequency):
+        self.interval = curvipy.Interval(-2 * math.pi, 2 * math.pi, 100)
+        self.function = lambda x: amplitude * math.sin(x * frequency)
+    
+    def points(self):
+        return [(x, self.function(x)) for x in self.interval]
+```
+
+You can define your own [Curve](curvipy.Curve) class or use on the classes provided by Curvipy shown below.
+
+## Function
 
 ```{eval-rst}
 .. autoclass:: curvipy.Function
@@ -59,10 +79,11 @@ You can define your own `Curve` class or use on the classes provided by Curvipy 
 import math
 import curvipy
 
-curve = curvipy.Function(math.sin)
+interval = curvipy.Interval(-2 * math.pi, 2 * math.pi, 200)
+curve = curvipy.Function(math.sin, interval)
 ```
 
-## ParametricFunction class
+## Parametric Function
 
 ```{eval-rst}
 .. autoclass:: curvipy.ParametricFunction
@@ -74,16 +95,27 @@ curve = curvipy.Function(math.sin)
 ```python
 import curvipy
 
+interval = curvipy.Interval(-5, 5, 200)
 parametric_function = lambda t: (t, t**2)
-curve = curvipy.ParametricFunction(parametric_function)
+curve = curvipy.ParametricFunction(parametric_function, interval)
 ```
 
-## TransformedCurve class
+## Transformed Curve
 
 ```{eval-rst}
 .. autoclass:: curvipy.TransformedCurve
     :members:
 ```
+
+**How it works:**
+
+Given a linear transformation {math}`T` with its respective transformation matrix {math}`M_{2 \times 2}` and a set of points {math}`P` from a curve {math}`C`, [TransformedCurve.points()](curvipy.TransformedCurve.points()) computes the set of points
+
+```{math}
+P_T = \{M_{2 \times 2} \times p_i \mid p_i \in P\}
+```
+
+which defines the transformed curve {math}`T(C)`.
 
 **Example:**
 
@@ -91,16 +123,17 @@ curve = curvipy.ParametricFunction(parametric_function)
 import math
 import curvipy
 
-curve = curvipy.Function(math.sin)
+interval = curvipy.Interval(-2 * math.pi, 2 * math.pi, 200)
+curve = curvipy.Function(math.sin, interval)
 rotation_matrix = ((0, 1), (-1, 0))  # 90° anticlockwise rotation
 rotated_curve = curvipy.TransformedCurve(curve, rotation_matrix)  # Rotated sin(x)
 ```
 
 # Vectors
 
-Vectors can be defined with the `Vector` class.
-
 ```{eval-rst}
 .. autoclass:: curvipy.Vector
+    :member-order: bysource
     :members:
+    :special-members: __getitem__,__mul__,__add__,__sub__,__eq__
 ```
