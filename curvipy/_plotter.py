@@ -10,6 +10,48 @@ from ._screen import ScreenFacade as _ScreenFacade
 _TNumber = _Union[int, float]
 
 
+class ScreenConfiguration:
+    """Defines the configuration for the plotter screen.
+
+    Parameters
+    ----------
+    window_title : str
+        Title to display on window. Defaults to "Curvipy".
+    background_color : str
+        Background color. Can either be a name or a hex color code. Defaults to "#FFFFFF".
+    window_width : int or None
+        Width of the screen window (in pixels). If None, `window_width` equals to 50% of the \
+        display width. Defaults to None.
+    window_height : int or None
+        Height of the screen window (in pixels). If None, `window_height` equals to 75% of \
+        the display height. Defaults to None.
+    logical_width : int
+        Logical width of the screen. This is the width that `Plotter` will operate with.
+        While `window_width` is the real width of the screen, `logical_width` is a virtual \
+        representation of it.
+    logical_height : int
+        Logical height of the screen. This is the height that `Plotter` will operate with.
+        While `window_height` is the real height of the screen, `logical_height` is a virtual \
+        representation of it.
+    """
+
+    def __init__(
+        self,
+        window_title: str = "Curvipy",
+        background_color: str = "#FFFFFF",
+        window_width: _Union[int, None] = None,
+        window_height: int = None,
+        logical_width: int = 20,
+        logical_height: int = 20,
+    ):
+        self.window_title = window_title
+        self.background_color = background_color
+        self.window_width = window_width
+        self.window_height = window_height
+        self.logical_width = logical_width
+        self.logical_height = logical_height
+
+
 class PlottingConfiguration:
     """Defines the configuration for plotting curves and vectors.
         
@@ -100,8 +142,6 @@ class AxesConfiguration:
         to the left or to the right of the x-axis. Defaults to "left".
     """
 
-    __AXES_SCALE_FACTOR = 30
-
     def __init__(
         self,
         show_axes: bool = True,
@@ -121,8 +161,8 @@ class AxesConfiguration:
         self.show_axes = show_axes
         self.axes_color = axes_color
         self.axes_width = axes_width
-        self.x_axis_scale = x_axis_scale * __class__.__AXES_SCALE_FACTOR
-        self.y_axis_scale = y_axis_scale * __class__.__AXES_SCALE_FACTOR
+        self.x_axis_scale = x_axis_scale
+        self.y_axis_scale = y_axis_scale
         self.x_axis_ticks = x_axis_ticks
         self.y_axis_ticks = y_axis_ticks
         self.x_axis_tick_decimals = x_axis_tick_decimals
@@ -134,51 +174,62 @@ class AxesConfiguration:
 
 
 class Plotter:
-    """Graph plotter for drawing vectors and curves.
+    """Graph plotter for drawing curves and vectors.
 
     Parameters
     ----------
-    window_title : str
-        Title to display on window. Defaults to "Curvipy".
-    background_color : str
-        Background color. Can either be a name or a hex color code. Defaults to "#FFFFFF".
+    screen_config : ScreenConfiguration
+        Screen configuration. By default, `screen_config` takes the defaults attributes \
+        values of `ScreenConfiguration`.
     plotting_config : PlottingConfiguration
-        Plotting configuration. If None, `plotting_config` takes the defaults attributes \
+        Plotting configuration. By default, `plotting_config` takes the defaults attributes \
         values of `PlottingConfiguration`.
     axes_config : AxesConfiguration
-        Axes configuration. If None, `axes_config` takes the defaults attributes values \
+        Axes configuration.  By default, `axes_config` takes the defaults attributes values \
         of `AxesConfiguration`.
     """
 
     def __init__(
         self,
-        window_title: str = "Curvipy",
-        background_color: str = "#FFFFFF",
+        screen_config: ScreenConfiguration = None,
         plotting_config: PlottingConfiguration = None,
         axes_config: AxesConfiguration = None,
     ) -> None:
-        # Screen attributes
-        self.__screen = _ScreenFacade(window_title, background_color)
-        self.plotting_config = (
-            plotting_config if plotting_config is not None else PlottingConfiguration()
-        )
-        self.axes_config = (
-            axes_config if axes_config is not None else AxesConfiguration()
+        if screen_config is not None:
+            self.screen_config = screen_config
+        else:
+            self.screen_config = ScreenConfiguration()
+
+        if plotting_config is not None:
+            self.plotting_config = plotting_config
+        else:
+            self.plotting_config = PlottingConfiguration()
+
+        if axes_config is not None:
+            self.axes_config = axes_config
+        else:
+            self.axes_config = AxesConfiguration()
+
+        self.__screen = _ScreenFacade(
+            self.screen_config.window_title,
+            self.screen_config.background_color,
+            self.screen_config.window_width,
+            self.screen_config.window_height,
+            self.screen_config.logical_width,
+            self.screen_config.logical_height,
         )
 
         if self.axes_config.show_axes:
             self._draw_axis()
 
     def _draw_axis(self) -> None:
-        screen_size = self.__screen.get_screen_size()
-        w, h = (screen_size[0] * 1.5, screen_size[1] * 1.5)
-        axis_extension = 20  # for drawing the axis arrow
+        w, h = self.screen_config.logical_width, self.screen_config.logical_height
 
         # Y-AXIS
         ## Draw y-axis line
         self.__screen.draw_line(
-            (0, -h - axis_extension),
-            (0, h + axis_extension),
+            (0, -h / 2),
+            (0, h / 2),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
@@ -188,9 +239,15 @@ class Plotter:
         dy = (
             0
             if not self.axes_config.y_axis_ticks
-            else _ceil(h / self.axes_config.y_axis_ticks)
+            else h / (self.axes_config.y_axis_ticks * 2)
         )
-        for i in range(self.axes_config.y_axis_ticks * 2 + 1):
+
+        if self.axes_config.y_axis_scale > 0:
+            i_range = range(self.axes_config.y_axis_ticks * 2)
+        else:
+            i_range = range(self.axes_config.y_axis_ticks * 2, 0, -1)
+
+        for i in i_range:
             y = dy * (i - self.axes_config.y_axis_ticks)
             if y == 0:
                 continue
@@ -198,9 +255,7 @@ class Plotter:
 
         ## Draw y-axis line arrow
         axis_arrow_pos = (
-            (0, h + axis_extension)
-            if self.axes_config.y_axis_scale > 0
-            else (0, -h - axis_extension)
+            (0, h / 2) if self.axes_config.y_axis_scale > 0 else (0, -h / 2)
         )
         axis_arrow_ang = 0.5 * _pi if self.axes_config.y_axis_scale > 0 else -0.5 * _pi
         self.__screen.draw_arrow(
@@ -215,8 +270,8 @@ class Plotter:
         # X-AXIS
         ## Draw x-axis line
         self.__screen.draw_line(
-            (-w - axis_extension, 0),
-            (w + axis_extension, 0),
+            (-w / 2, 0),
+            (w / 2, 0),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
@@ -226,23 +281,25 @@ class Plotter:
         dx = (
             0
             if not self.axes_config.x_axis_ticks
-            else _ceil(w / self.axes_config.x_axis_ticks)
+            else w / (self.axes_config.x_axis_ticks * 2)
         )
-        for i in range(self.axes_config.x_axis_ticks * 2 + 1):
+
+        if self.axes_config.x_axis_scale > 0:
+            i_range = range(self.axes_config.x_axis_ticks * 2)
+        else:
+            i_range = range(self.axes_config.x_axis_ticks * 2, 0, -1)
+
+        for i in i_range:
             x = dx * (i - self.axes_config.x_axis_ticks)
             if x == 0:
                 continue
             self.draw_x_tick(x / self.axes_config.x_axis_scale)
 
         ## Draw x-axis line arrow
-        axis_arrow_pos = (
-            (w + axis_extension, 0)
-            if self.axes_config.x_axis_scale > 0
-            else (-w - axis_extension, 0)
-        )
+        point = (w / 2, 0) if self.axes_config.x_axis_scale > 0 else (-w / 2, 0)
         axis_arrow_ang = 0 if self.axes_config.x_axis_scale > 0 else _pi
         self.__screen.draw_arrow(
-            point=axis_arrow_pos,
+            point=point,
             arrow_angle=axis_arrow_ang,
             arrow_size=10,
             arrow_width=self.axes_config.axes_width,
@@ -262,30 +319,38 @@ class Plotter:
             upside or downside the y-axis. If `None`, align takes \
             `Plotter.x_axis_tick_number_align` attribute value. Defaults to `None`.
         """
+        # Values for `y_offset`, `text_offset` and `tick_length` have been determined
+        # experimentally. This method work properly for small values of text font size
+        # and well spaced ticks. If the given font is too big or ticks are drawn relative
+        # closely, this method might overlap the ticks with their self or with the axes.
+
+        # Variables setup
+        w, h = self.screen_config.logical_width, self.screen_config.logical_height
         font_size = self.axes_config.tick_number_font[1]
         number_str = str(round(number, self.axes_config.x_axis_tick_decimals))
 
         # Offsets
         align = self.axes_config.x_axis_tick_number_align if not align else align
         if align == "down":
-            y_offset = -20
+            y_offset = -0.04 * h  # -4% of the y-axis length
         if align == "up":
-            y_offset = 10
+            y_offset = 0.02 * h  # 2% of the y-axis length
 
-        x_offset = -font_size * len(number_str) // 2
+        text_offset = -font_size * len(number_str) * w * 0.5e-3
 
         # Draw x tick
+        tick_length = 0.01 * h  # 1% of the y-axis length
         x = number * self.axes_config.x_axis_scale
         self.__screen.draw_line(
-            (x, -5),
-            (x, 5),
+            (x, -tick_length),
+            (x, tick_length),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
         )
         self.__screen.draw_text(
             text=number_str,
-            point=(x + x_offset, 0 + y_offset),
+            point=(x + text_offset, 0 + y_offset),
             text_font=self.axes_config.tick_number_font,
             text_color=self.axes_config.tick_number_color,
             align="left",
@@ -303,23 +368,33 @@ class Plotter:
             to the left or to the right of the x-axis. If `None`, align takes \
             `Plotter.y_axis_tick_number_align` attribute value. Defaults to `None`.
         """
+        # Values for `y_offset`, `x_offset`, `tick_length` and `tick_length` have been
+        # determined experimentally. This method work properly for small values of text
+        # font size and well spaced ticks. If the given font is too big or ticks are drawn
+        # relative closely, this method might overlap the ticks with their self or with the
+        # axes.
+
+        # Variables setup
+        w, h = self.screen_config.logical_width, self.screen_config.logical_height
         font_size = self.axes_config.tick_number_font[1]
         number_str = str(round(number, self.axes_config.y_axis_tick_decimals))
 
         # Offsets
         align = self.axes_config.y_axis_tick_number_align if not align else align
         if align == "left":
-            x_offset = -10 - font_size * len(number_str) * 0.8
+            text_offset = font_size * len(number_str) * w * 1e-3
+            x_offset = -0.02 * w - text_offset  # 2% of x-axis length plus text offset
         if align == "right":
-            x_offset = 10
+            x_offset = 0.02 * w  # 2% of x-axis length
 
-        y_offset = -font_size // 2
+        y_offset = -font_size * h * 1e-3
 
         # Draw y tick
+        tick_length = 0.01 * w  # 1% of the x-axis length
         y = number * self.axes_config.y_axis_scale
         self.__screen.draw_line(
-            (-5, y),
-            (5, y),
+            (-tick_length, y),
+            (tick_length, y),
             self.axes_config.axes_width,
             self.axes_config.axes_color,
             self.__screen.MAX_DRAWING_SPEED,
@@ -373,75 +448,6 @@ class Plotter:
             arrow_color=self.plotting_config.vector_color,
             drawing_speed=self.__screen.MAX_DRAWING_SPEED,
         )
-
-        # Show vector values
-        if not self.plotting_config.show_vector_values:
-            return
-        dash_size = 2
-
-        # Show vector tail values
-        if scaled_tail[0] != 0:
-            offset = 15 if scaled_tail[0] > 0 else -15
-            total_dashes = int(abs(scaled_tail[0] // 20))
-            self.__screen.draw_dashed_line(
-                (0, scaled_tail[1]),
-                (scaled_tail[0] - offset, scaled_tail[1]),
-                total_dashes,
-                dash_size,
-                self.plotting_config.vector_values_line_width,
-                self.plotting_config.vector_values_line_color,
-                self.plotting_config.plotting_speed,
-            )  # Horizontal dashed line
-
-            offset = 15 if scaled_tail[1] > 0 else -15
-            total_dashes = int(abs(scaled_tail[1] // 20))
-            self.__screen.draw_dashed_line(
-                (scaled_tail[0], scaled_tail[1] - offset),
-                (scaled_tail[0], 0),
-                total_dashes,
-                dash_size,
-                self.plotting_config.vector_values_line_width,
-                self.plotting_config.vector_values_line_color,
-                self.plotting_config.plotting_speed,
-            )  # Vertical dashed line
-
-        if scaled_tail[0] != 0:
-            align = "up" if vector.tail[0] < 0 else "down"
-            self.draw_x_tick(vector.tail[0], align)
-        align = "left" if vector.tail[0] > 0 else "right"
-        self.draw_y_tick(vector.tail[1], align)
-
-        if scaled_head[0] != 0:
-            # Show vector head values
-            offset = 15 if scaled_head[0] > 0 else -15
-            total_dashes = int(abs(scaled_head[0] // 20))
-            self.__screen.draw_dashed_line(
-                (0, scaled_head[1]),
-                (scaled_head[0] - offset, scaled_head[1]),
-                total_dashes,
-                dash_size,
-                self.plotting_config.vector_values_line_width,
-                self.plotting_config.vector_values_line_color,
-                self.plotting_config.plotting_speed,
-            )  # Horizontal dashed line
-
-            offset = 15 if scaled_head[1] > 0 else -15
-            total_dashes = int(abs(scaled_head[1] // 20))
-            self.__screen.draw_dashed_line(
-                (scaled_head[0], scaled_head[1] - offset),
-                (scaled_head[0], 0),
-                total_dashes,
-                dash_size,
-                self.plotting_config.vector_values_line_width,
-                self.plotting_config.vector_values_line_color,
-                self.plotting_config.plotting_speed,
-            )  # Vertical dashed line
-
-        if scaled_head[0] != 0:
-            align = "up" if vector.head[0] < 0 else "down"
-            self.draw_x_tick(vector.head[0], align)
-        align = "left" if vector.head[0] > 0 else "right"
-        self.draw_y_tick(vector.head[1], align)
 
     def plot_curve(self, curve: _Curve) -> None:
         """Plots the given two-dimensional curve in the specified interval.
