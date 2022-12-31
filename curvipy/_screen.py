@@ -1,5 +1,6 @@
 import turtle as _turtle
 
+from math import sqrt as _sqrt
 from math import sin as _sin
 from math import cos as _cos
 from math import pi as _pi
@@ -173,112 +174,6 @@ class ScreenFacade:
         # Draw line
         rend_point = self.get_real_point(end_point)
         self.goto_drawing(rend_point, drawing_speed)
-
-    def draw_dashed_line(
-        self,
-        start_point: _TLogicalPoint,
-        end_point: _TLogicalPoint,
-        total_dashes: int,
-        dash_size: int,
-        line_width: int,
-        line_color: str,
-        drawing_speed: int,
-    ) -> None:
-        """Draws a dashed line from start position to end position.
-
-        Parameters
-        ----------
-        start_point : tuple[int or float, int or float]
-            Logical position at which the dashed line starts. `start_point` \
-            is translated to a real position.
-        end_point : tuple[int or float, int or float]
-            Logical position at which the dashed line ends. `end_point` \
-            is translated to a real position.
-        total_dashes: int
-            Positive integer. Number of dashes on the line.
-        dash_size : int
-            Positive integer.
-        line_width : int
-            Line width.
-        line_color : str
-            Line color.
-        drawing_speed : int
-            Drawing speed. Integer from 1 to 10.
-        """
-        # Pen setup
-        if line_width != self.__pen_width_cache:
-            self.__pen.width(line_width)
-            self.__pen_width_cache = line_width
-
-        if line_color != self.__pen_color_cache:
-            self.__pen.color(line_color)
-            self.__pen_color_cache = line_color
-        print(
-            start_point,
-            end_point,
-            total_dashes,
-            dash_size,
-            line_width,
-            line_color,
-            drawing_speed,
-        )
-        # Variables
-        rstart_point = self.get_real_point(start_point)
-        rend_point = self.get_real_point(end_point)
-
-        # Calculate slope
-        if rstart_point == rend_point:
-            return
-        elif rstart_point[0] == rend_point[0]:
-            slope = "inf"  # infinite (vertical line)
-        elif rstart_point[1] == rend_point[1]:
-            slope = 0
-        else:
-            dx = rend_point[0] - rstart_point[0]
-            dy = rend_point[1] - rstart_point[1]
-            slope = dy / dx
-
-        # Calculate line
-        if slope != "inf":
-            line = lambda t: (
-                t,
-                slope * t + (rstart_point[1] - rstart_point[0] * slope),
-            )
-            t0 = rstart_point[0]
-            dt = (rend_point[0] - rstart_point[0]) / total_dashes
-        else:
-            line = lambda t: (rstart_point[0], t)
-            t0 = rstart_point[1]
-            dt = (rend_point[1] - rstart_point[1]) / total_dashes
-
-        # Draw dashed line
-        for i in range(total_dashes):
-            x, y = line(t0 + dt * i)
-            if slope != "inf":
-                dash_start_point = (
-                    x - dash_size,
-                    y - dash_size * slope,
-                )
-                dash_end_point = (
-                    x + dash_size,
-                    y + dash_size * slope,
-                )
-            else:
-                dash_start_point = (
-                    x,
-                    y - dash_size,
-                )
-                dash_end_point = (
-                    x,
-                    y + dash_size,
-                )
-
-            self.__pen.up()
-            self.__pen.speed(__class__.MAX_DRAWING_SPEED)
-            self.__pen.goto(dash_start_point)
-            self.__pen.down()
-            self.__pen.speed(drawing_speed)
-            self.__pen.goto(dash_end_point)
 
     def draw_polyline(
         self,

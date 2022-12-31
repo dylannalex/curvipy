@@ -42,7 +42,7 @@ class ScreenConfiguration:
 
 class PlottingConfiguration:
     """Defines the configuration for plotting curves and vectors.
-        
+
     Parameters
     ----------
     plotting_speed : int
@@ -57,14 +57,6 @@ class PlottingConfiguration:
         Vector width. Defaults to 3.
     vector_head_size : int
         Size of vectors' head. Defaults to 10.
-    show_vector_values : bool
-        When True, vector head and tail values are shown on the axes. Defaults to True.
-    vector_values_line_color : str
-        Color of the dashed line drawn from the vector head and tail to the axes when \
-        `show_vector_values` is set to True. Defaults to "#70CBCE".
-    vector_values_line_width : int
-        Width of the dashed line drawn from the vector head and tail to the axes. when \
-        `show_vector_values` is set to True. Defaults to 3.
     """
 
     def __init__(
@@ -75,9 +67,6 @@ class PlottingConfiguration:
         vector_color: str = "#E63946",
         vector_width: int = 3,
         vector_head_size: int = 10,
-        show_vector_values: bool = True,
-        vector_values_line_color: str = "#70CBCE",
-        vector_values_line_width: int = 3,
     ):
         # General attributes
         self.plotting_speed = plotting_speed
@@ -90,9 +79,6 @@ class PlottingConfiguration:
         self.vector_color = vector_color
         self.vector_width = vector_width
         self.vector_head_size = vector_head_size
-        self.show_vector_values = show_vector_values
-        self.vector_values_line_color = vector_values_line_color
-        self.vector_values_line_width = vector_values_line_width
 
 
 class AxesConfiguration:
@@ -438,8 +424,7 @@ class Plotter:
         # reflect the real coordinates on screen of the vector.
         #
         # TODO:
-        #   - Display vector components when `PlottingConfiguration.show_vector_values`
-        #   equals True.
+        #   - Display vector components
 
         # Check if vector is the cero vector (v = [0, 0])
         if not vector.norm:
