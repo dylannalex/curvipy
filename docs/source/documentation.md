@@ -7,6 +7,13 @@
     :members:
 ```
 
+## Screen Configuration
+
+```{eval-rst}
+.. autoclass:: curvipy.ScreenConfiguration
+    :members:
+```
+
 ## Plotting Configuration
 
 ```{eval-rst}
@@ -24,25 +31,6 @@
 # Curves
 
 With Curvipy you can plot two-dimensional curves. In this section you can find classes provided by Curvipy for defining curves.
-
-## Interval
-
-```{eval-rst}
-.. autoclass:: curvipy.Interval
-    :members:
-```
-
-**Example:**
-Suppose we want to plot the function √x with 20 samples.
-
-```python
-import curvipy
-
-valid_interval = curvipy.Interval(start=0, end=10, samples=20) 
-# All numbers from start to end belong to √x domain.
-invalid_interval = curvipy.Interval(start=-10, end=0, samples=20) 
-# Negative numbers don't belong to √x domain.
-```
 
 ## Curve
 
@@ -65,6 +53,25 @@ class Sin(Curve):
 ```
 
 You can define your own [Curve](curvipy.Curve) class or use on the classes provided by Curvipy shown below.
+
+## Interval
+
+```{eval-rst}
+.. autoclass:: curvipy.Interval
+    :members:
+```
+
+**Example:**
+Suppose we want to plot the function √x with 20 samples.
+
+```python
+import curvipy
+
+valid_interval = curvipy.Interval(start=0, end=10, samples=20) 
+# All numbers from start to end belong to √x domain.
+invalid_interval = curvipy.Interval(start=-10, end=0, samples=20) 
+# Negative numbers don't belong to √x domain.
+```
 
 ## Function
 
