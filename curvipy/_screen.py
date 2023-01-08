@@ -23,15 +23,15 @@ class ScreenFacade:
     Parameters
     ----------
     window_title : str
-        Title to display on window. Defaults to "Curvipy".
+        Title to display on window.
     background_color : str
-        Background color. Can either be a name or a hex color code. Defaults to "#FFFFFF".
+        Background color. Can either be a name or a hex color code.
     window_width : int or None
         Width of the screen window (in pixels). If None, `window_width` equals to 50% of the \
-        display width. Defaults to None.
+        display width.
     window_height : int or None
         Height of the screen window (in pixels). If None, `window_height` equals to 75% of \
-        the display height. Defaults to None.
+        the display height.
     logical_width : int
         Logical width of the screen. This is the width that the users of `ScreenFacade` class \
         will operate with.
