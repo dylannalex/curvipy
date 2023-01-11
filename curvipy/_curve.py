@@ -8,13 +8,14 @@ from ._interval import Interval as _Interval
 
 _TNumber = _Union[int, float]
 _TVector = tuple[_TNumber, _TNumber]
+_TPoint = tuple[_TNumber, _TNumber]
 
 
 class Curve(_ABC):
     """Base class for all two-dimensional curves."""
 
     @_abstractmethod
-    def points(self) -> list[_TNumber]:
+    def points(self) -> list[_TPoint]:
         """Returns a sorted list of curve point. The position of the points \
         indicates the order in which they will be plotted. 
 
@@ -42,12 +43,12 @@ class Function(Curve):
         self.function = function
         self.interval = interval
 
-    def points(self) -> list[_TNumber]:
+    def points(self) -> list[_TPoint]:
         """Returns the function point for each value in the given interval.
 
         Returns
         -------
-        list[int or float]
+        list[tuple[int or float, int or float]]
             A list of function points.
         """
         return [(x, self.function(x)) for x in self.interval]
@@ -65,18 +66,16 @@ class ParametricFunction(Curve):
             The interval from which the parametric function will be plotted.
     """
 
-    def __init__(
-        self, parametric_function: _Callable[[_TNumber], _TVector], interval: _Interval
-    ):
+    def __init__(self, parametric_function: _Callable[[_TNumber], _TVector], interval: _Interval):
         self.parametric_function = parametric_function
         self.interval = interval
 
-    def points(self) -> list[_TNumber]:
+    def points(self) -> list[_TPoint]:
         """Returns the parametric function point for each value in the given interval.
 
         Returns
         -------
-        list[int or float]
+        list[tuple[int or float, int or float]]
             A list of parametric function points.
         """
         return [self.parametric_function(t) for t in self.interval]
@@ -108,20 +107,20 @@ class TransformedCurve(Curve):
         self.__curve = curve
         self.__matrix = matrix
 
-    def points(self) -> list[_TNumber]:
+    def points(self) -> list[_TPoint]:
         """Applies a linear transformation to each point of the curve.
 
         Returns
         -------
-        list[int or float]
+        list[tuple[int or float, int or float]]
             A list of transformed curve points.
         """
         points = []
         for point in self.__curve.points():
             points.append(
-                [
+                (
                     point[0] * self.__matrix[0][0] + point[1] * self.__matrix[0][1],
                     point[0] * self.__matrix[1][0] + point[1] * self.__matrix[1][1],
-                ]
+                )
             )
         return points
