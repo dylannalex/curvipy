@@ -23,7 +23,7 @@ class Interval:
 
     def __init__(self, start: _TNumber, end: _TNumber, samples: int):
         dx = (end - start) / samples
-        self.__interval = [start + dx * i for i in range(samples)]
+        self.__interval = tuple([start + dx * i for i in range(samples)] + [end])
 
     def __iter__(self):
         return iter(self.__interval)
