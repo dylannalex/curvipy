@@ -64,12 +64,12 @@ class Vector:
         -------
         .. code-block:: python
 
-            v = curvipy.Vector(tail=(-1, -1), head=(2, 2))
-            v.place((-2, 2))
-            v.tail
-            >>> (-2, 2)
-            v.head
-            >>> (1, 5)
+            >>> v = curvipy.Vector(tail=(-1, -1), head=(2, 2))
+            >>> v.place((-2, 2))
+            >>> v.tail
+            (-2, 2)
+            >>> v.head
+            (1, 5)
         """
         self.head = (
             point[0] + self.components[0],
@@ -84,13 +84,13 @@ class Vector:
         -------
         .. code-block:: python
 
-            v = curvipy.Vector(tail=[-1, -1], head=[2, 3])
-            v.components
-            >>> (3, 4)
-            v[0]
-            >>> 3
-            v[1]
-            >>> 4
+            >>> v = curvipy.Vector(tail=[-1, -1], head=[2, 3])
+            >>> v.components
+            (3, 4)
+            >>> v[0]
+            3
+            >>> v[1]
+            4
         """
         return self.components[i]
 
@@ -105,14 +105,14 @@ class Vector:
         -------
         .. code-block:: python
 
-            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-            w = v * 2
-            w.tail
-            >>> (-1, -1)
-            w.head
-            >>> (5, 5)
-            w.components
-            >>> (6, 6)
+            >>> v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            >>> w = v * 2
+            >>> w.tail
+            (-1, -1)
+            >>> w.head
+            (5, 5)
+            >>> w.components
+            (6, 6)
         """
         scaled_vector_components = (
             self.components[0] * scalar,
@@ -132,13 +132,13 @@ class Vector:
         -------
         .. code-block:: python
 
-            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-            w = curvipy.Vector(tail=[2, 0], head=[1, -2])
-            n = v + w
-            n.tail
-            >>> (0, 0)
-            n.head
-            >>> (2, 1)"""
+            >>> v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            >>> w = curvipy.Vector(tail=[2, 0], head=[1, -2])
+            >>> n = v + w
+            >>> n.tail
+            (0, 0)
+            >>> n.head
+            (2, 1)"""
         head = (
             self.components[0] + vector.components[0],
             self.components[1] + vector.components[1],
@@ -153,13 +153,13 @@ class Vector:
         -------
         .. code-block:: python
 
-            v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
-            w = curvipy.Vector(tail=[2, 0], head=[1, -2])
-            n = v - w
-            n.tail
-            >>> (0, 0)
-            n.head
-            >>> (4, 5)
+            >>> v = curvipy.Vector(tail=[-1, -1], head=[2, 2])
+            >>> w = curvipy.Vector(tail=[2, 0], head=[1, -2])
+            >>> n = v - w
+            >>> n.tail
+            (0, 0)
+            >>> n.head
+            (4, 5)
         """
         return self + vector * -1
 

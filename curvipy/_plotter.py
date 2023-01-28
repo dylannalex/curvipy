@@ -116,7 +116,7 @@ class AxesConfiguration:
     y_ticks_distance : int
         Distance between each y-axis tick. E.g. if `y_ticks_distance` equals 0.5, y-axis \
         ticks will be `{..., -1, -0.5, 0, 0.5, 1, ...}`. Defaults to 1.
-    y_tick_decimals : int
+    y_ticks_decimals : int
         Number of decimals of the y-axis ticks number. Defaults to 2.
     y_ticks_align : str
         Can either be "left" or "right". Defines if the y-axis ticks number will be placed \
@@ -183,7 +183,7 @@ class Plotter:
     ) -> None:
         # Plotter coordinates system:
         #
-        # `curvipy.Plotter` works with a virtual set of coordinates defined by the a logical width
+        # `curvipy.Plotter` works with a virtual set of coordinates defined by a logical width
         # and height. The logical screen size is independent of the real window size, and virtual
         # coordinates are translated to real window coordinates.
         # Despite setting a logical width and height do not affect the window size, it defines the
