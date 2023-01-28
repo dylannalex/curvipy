@@ -6,7 +6,7 @@ _TNumber = _Union[int, float]
 class Interval:
     """Interval in which a curve will be plotted.
 
-    The interval is splitted into a list of values in which the curve will be evaluated. \
+    The interval is split into a list of values in which the curve will be evaluated. \
     These values are defined by the number of `samples` specified. The more samples, the \
     more precise the curve plot is.
     

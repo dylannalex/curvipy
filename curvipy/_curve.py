@@ -59,7 +59,7 @@ class ParametricFunction(Curve):
 
     Parameters
     ----------
-    function : Callable[[int or float], tuple[int or float, int or float]]
+    parametric_function : Callable[[int or float], tuple[int or float, int or float]]
                 Function that given an integer or float returns a tuple containing two \
                 integers or floats.
     interval : Interval
